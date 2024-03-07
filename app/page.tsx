@@ -9,7 +9,7 @@ export default function Home() {
     <div className="flex flex-col min-h-[100dvh]">
       <header className="px-4 lg:px-6 h-14 flex items-center sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <Link className="flex items-center justify-center" href="#">
-          <span className="text-5xl font-bold">Library MS</span>
+          <span className="text-5xl font-bold text-[#FBA834]">Library MS</span>
           <span className="sr-only">Acme Inc</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
@@ -33,7 +33,7 @@ export default function Home() {
                 Library Management System
               </h1>
               <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                Accessible. Customizable. Open Source.
+                We have everything that you need, mate!
               </p>
             </div>
             <div className="space-x-4">
