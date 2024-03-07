@@ -30,18 +30,23 @@ export default function NavigationBar() {
           </Link>
           <Link
             className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="#">
+            href="product">
             Sách
+          </Link>
+          <Link
+            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="author">
+            Tác giả
+          </Link>
+          <Link
+            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="category">
+            Thể loại sách
           </Link>
           <Link
             className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
             href="#">
             Thành viên
-          </Link>
-          <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="#">
-            Thể loại sách
           </Link>
         </nav>
       </div>
