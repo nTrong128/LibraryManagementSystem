@@ -45,8 +45,13 @@ export default function NavigationBar() {
           </Link>
           <Link
             className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="#">
-            Thành viên
+            href="bookaholic">
+            Độc giả
+          </Link>
+          <Link
+            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="staff">
+            Nhân viên
           </Link>
           <Link
             className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
