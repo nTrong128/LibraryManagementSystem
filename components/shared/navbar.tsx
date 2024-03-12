@@ -48,6 +48,11 @@ export default function NavigationBar() {
             href="#">
             Thành viên
           </Link>
+          <Link
+            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="borrow">
+            Mượn sách
+          </Link>
         </nav>
       </div>
       <div>
