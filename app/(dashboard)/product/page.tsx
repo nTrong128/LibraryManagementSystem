@@ -1,3 +1,4 @@
+"use client";
 import {Button} from "@/components/ui/button";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {
@@ -8,9 +9,17 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table";
+import {Book} from "@/type";
 import {BookOpen} from "lucide-react";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function ProductPage() {
+  const {data, error} = useSWR("http://localhost:8080/api/v1/books/", fetcher);
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
   return (
     <main className="m-2">
       <Card className="flex-1">
@@ -37,46 +46,18 @@ export default function ProductPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">B001</TableCell>
-            <TableCell>The Alchemist</TableCell>
-            <TableCell>A001</TableCell>
-            <TableCell>C001</TableCell>
-            <TableCell>P001</TableCell>
-            <TableCell>1988</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">B002</TableCell>
-            <TableCell>The Catcher in the Rye</TableCell>
-            <TableCell>A002</TableCell>
-            <TableCell>C002</TableCell>
-            <TableCell>P002</TableCell>
-            <TableCell>1951</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">B003</TableCell>
-            <TableCell>To Kill a Mockingbird</TableCell>
-            <TableCell>A003</TableCell>
-            <TableCell>C003</TableCell>
-            <TableCell>P003</TableCell>
-            <TableCell>1960</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">B004</TableCell>
-            <TableCell>1984</TableCell>
-            <TableCell>A004</TableCell>
-            <TableCell>C004</TableCell>
-            <TableCell>P004</TableCell>
-            <TableCell>1949</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="font-medium">B005</TableCell>
-            <TableCell>The Great Gatsby</TableCell>
-            <TableCell>A005</TableCell>
-            <TableCell>C005</TableCell>
-            <TableCell>P005</TableCell>
-            <TableCell>1925</TableCell>
-          </TableRow>
+          {data.data.map((book: Book) => (
+            <TableRow key={book.id}>
+              <TableCell className="font-medium">{book.id}</TableCell>
+              <TableCell>{book.bookName}</TableCell>
+              <TableCell>{book.author.authorName}</TableCell>
+              <TableCell className="text-right">
+                {book.category.categoryName}
+              </TableCell>
+              <TableCell>{book.publisher.publisherName}</TableCell>
+              <TableCell>{book.publicationYear}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </main>
