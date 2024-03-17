@@ -1,4 +1,4 @@
-import {Author} from "@/components/component/author";
+"use client";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {PersonStanding} from "lucide-react";
@@ -10,7 +10,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import useSWR from "swr";
+import {Category} from "@/type";
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
 export default function Category() {
+  const {data, error} = useSWR(
+    "http://localhost:8080/api/v1/categories/",
+    fetcher
+  );
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
   return (
     <main>
       <Card className="flex-1">
@@ -29,31 +39,17 @@ export default function Category() {
         <Table className="w-1/3">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[140px]">Category Code</TableHead>
               <TableHead>Category Name</TableHead>
+              <TableHead>Number of book</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">CTG001</TableCell>
-              <TableCell>Running</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">CTG002</TableCell>
-              <TableCell>Basketball</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">CTG003</TableCell>
-              <TableCell>Tennis</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">CTG004</TableCell>
-              <TableCell>Yoga & Fitness</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">CTG005</TableCell>
-              <TableCell>Outdoor & Hiking</TableCell>
-            </TableRow>
+            {data.data.map((category: Category) => (
+              <TableRow key={category.id}>
+                <TableCell>{category.categoryName}</TableCell>
+                <TableCell>{category.numberOfBooks}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

@@ -1,4 +1,3 @@
-"use client";
 import {Button} from "@/components/ui/button";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {
@@ -11,13 +10,15 @@ import {
 } from "@/components/ui/table";
 import {Book} from "@/type";
 import {BookOpen} from "lucide-react";
-import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+export default async function ProductPage() {
+  const res = await fetch(`${process.env.BACKEND_URL}/books`, {
+    method: "GET",
+    next: {tags: ["list-books"]},
+  });
+  const data = await res.json();
+  const book: Book[] = data.data;
 
-export default function ProductPage() {
-  const {data, error} = useSWR("http://localhost:8080/api/v1/books/", fetcher);
-  if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
   return (
@@ -46,7 +47,7 @@ export default function ProductPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.data.map((book: Book) => (
+          {book.map((book: Book) => (
             <TableRow key={book.id}>
               <TableCell className="font-medium">{book.id}</TableCell>
               <TableCell>{book.bookName}</TableCell>
