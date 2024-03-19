@@ -10,10 +10,10 @@ import {Employee} from "@/type";
 
 export function Staff(prop: {employees: Employee[]}) {
   return (
-    <Table>
+    <Table className="border mt-10 mx-auto max-w-5xl">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Mã Nhân viên</TableHead>
+          <TableHead>Mã Nhân viên</TableHead>
           <TableHead>Họ và Tên</TableHead>
           <TableHead>Ngày Sinh</TableHead>
           <TableHead>Số điện thoại</TableHead>
@@ -21,10 +21,12 @@ export function Staff(prop: {employees: Employee[]}) {
       </TableHeader>
       <TableBody>
         {prop.employees.map((employee: Employee) => (
-          <TableRow key={employee.employeeId}>
-            <TableCell>{employee.employeeId}</TableCell>
+          <TableRow key={employee.id}>
+            <TableCell>{employee.id}</TableCell>
             <TableCell>{employee.fullName}</TableCell>
-            <TableCell>{employee.birthDate}</TableCell>
+            <TableCell>
+              {new Date(employee.birthDate).toLocaleDateString("vi-VN")}
+            </TableCell>
             <TableCell>{employee.phoneNumber}</TableCell>
           </TableRow>
         ))}

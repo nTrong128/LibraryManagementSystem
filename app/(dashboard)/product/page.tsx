@@ -31,7 +31,7 @@ export default async function ProductPage() {
   }
 
   return (
-    <main className="m-2">
+    <main>
       <Card className="flex-1">
         <CardHeader className="md:gap-4 bg-gray-200 rounded-t-lg">
           <div className="flex justify-between items-center">
@@ -46,15 +46,15 @@ export default async function ProductPage() {
           </div>
         </CardHeader>
       </Card>
-      <Table>
+      <Table className="mx-auto my-10 border max-w-6xl">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Book ID</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Author ID</TableHead>
-            <TableHead>Category ID</TableHead>
-            <TableHead>Publisher ID</TableHead>
-            <TableHead>Publication Year</TableHead>
+            <TableHead className="w-[100px]">Mã sách</TableHead>
+            <TableHead>Tiêu đề</TableHead>
+            <TableHead>Tác giả</TableHead>
+            <TableHead>Thể loại</TableHead>
+            <TableHead>Nhà xuất bản</TableHead>
+            <TableHead>Năm xuất bản</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -63,9 +63,7 @@ export default async function ProductPage() {
               <TableCell className="font-medium">{book.id}</TableCell>
               <TableCell>{book.bookName}</TableCell>
               <TableCell>{book.author.authorName}</TableCell>
-              <TableCell className="text-right">
-                {book.category.categoryName}
-              </TableCell>
+              <TableCell>{book.category.categoryName}</TableCell>
               <TableCell>{book.publisher.publisherName}</TableCell>
               <TableCell>{book.publicationYear}</TableCell>
             </TableRow>

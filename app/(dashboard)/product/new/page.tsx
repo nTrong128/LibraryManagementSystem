@@ -17,6 +17,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -24,6 +25,7 @@ import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
 
 export default function NewProductPage() {
   const [author, setAuthor] = useState<Author[]>([]);
