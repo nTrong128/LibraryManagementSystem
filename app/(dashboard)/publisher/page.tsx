@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import useSWR from "swr";
 import {Publisher} from "@/type";
+import Link from "next/link";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function Category() {
@@ -31,14 +32,17 @@ export default function Category() {
               <CardTitle>Nhà xuất bản</CardTitle>
             </div>
 
-            <Button>Thêm nhà xuất bản</Button>
+            <Link href={"/publisher/new"}>
+              <Button>Thêm nhà xuất bản</Button>
+            </Link>
           </div>
         </CardHeader>
       </Card>
-      <div className=" mx-auto my-10 border max-w-3xl">
+      <div className=" my-10 border mx-10">
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Mã NXB</TableHead>
               <TableHead>Tên nhà xuất bản</TableHead>
               <TableHead>Địa chỉ</TableHead>
               <TableHead>Email</TableHead>
@@ -49,9 +53,11 @@ export default function Category() {
           <TableBody>
             {data.data.map((category: Publisher) => (
               <TableRow key={category.id}>
+                <TableCell>{category.id}</TableCell>
                 <TableCell>{category.publisherName}</TableCell>
                 <TableCell>{category.address}</TableCell>
                 <TableCell>{category.email}</TableCell>
+                <TableCell>{category.representativeInfo}</TableCell>
                 <TableCell>{category.numberOfBooks}</TableCell>
                 <TableCell>
                   <div className="flex gap-x-2">
