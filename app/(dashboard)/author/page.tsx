@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import useSWR from "swr";
 import {Author} from "@/type";
+import Link from "next/link";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -32,25 +33,33 @@ export default function AuthorPage() {
               <PersonStanding />
               <CardTitle>Tác giả</CardTitle>
             </div>
-            <Button>Thêm tác giả</Button>
+            <Link href={"/author/new"}>
+              <Button>Thêm tác giả</Button>
+            </Link>
           </div>
         </CardHeader>
       </Card>
-      <div className="flex items-center justify-center m-12 border">
-        <Table>
+      <div>
+        <Table className="max-w-5xl border mx-auto mt-10">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[150px]">Mã mượn trả</TableHead>
-              <TableHead>Số thẻ</TableHead>
-              <TableHead>Mã nhân viên</TableHead>
-              <TableHead>Ngày mượn</TableHead>
+              <TableHead className="w-[150px]">Mã tác giả</TableHead>
+              <TableHead>Tên tác giả</TableHead>
+              <TableHead>Địa chỉ website</TableHead>
+              <TableHead>Mô tả</TableHead>
+              <TableHead>Số lượng tác phẩm</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.data.map((author: Author) => (
               <TableRow key={author.id}>
+                <TableCell>{author.id}</TableCell>
                 <TableCell>{author.authorName}</TableCell>
-                <TableCell>{author.website}</TableCell>
+                <TableCell className="hover:text-blue-600">
+                  <Link target="_blank" href={`http://${author.website}`}>
+                    {author.website}
+                  </Link>
+                </TableCell>
                 <TableCell>{author.note}</TableCell>
                 <TableCell>{author.numberOfBooks}</TableCell>
               </TableRow>
