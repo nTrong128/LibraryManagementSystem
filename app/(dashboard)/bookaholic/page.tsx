@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {Reader} from "@/type";
+import Link from "next/link";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -35,7 +36,9 @@ export default function Bookaholic() {
               <CardTitle>Độc giả</CardTitle>
             </div>
 
-            <Button>Thêm độc giả</Button>
+            <Link href={"/bookaholic/new"}>
+              <Button>Thêm độc giả</Button>
+            </Link>
           </div>
         </CardHeader>
       </Card>
@@ -50,11 +53,19 @@ export default function Bookaholic() {
         </TableHeader>
         <TableBody>
           {readers.map((reader: Reader) => (
-            <TableRow key={reader.readerId}>
-              <TableCell>{reader.readerId}</TableCell>
+            <TableRow key={reader.id}>
+              <TableCell>{reader.id}</TableCell>
               <TableCell className="font-medium">{reader.readerName}</TableCell>
               <TableCell>{reader.address}</TableCell>
-              <TableCell>{reader.libraryCard?.cardNumber}</TableCell>
+              {reader.libraryCard?.cardNumber ? (
+                <TableCell>{reader.libraryCard?.cardNumber}</TableCell>
+              ) : (
+                <TableCell>
+                  <Link href={`/bookaholic/${reader.id}/newcard`}>
+                    <Button variant={"secondary"}>Thêm thẻ</Button>
+                  </Link>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

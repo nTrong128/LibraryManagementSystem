@@ -36,7 +36,7 @@ type Book = {
 export type {Book};
 
 type Reader = {
-  readerId: number;
+  id: number;
   readerName: string;
   address: string;
   libraryCard: null | LibraryCard;
@@ -44,7 +44,7 @@ type Reader = {
 export type {Reader};
 
 type LibraryCard = {
-  readerId: number;
+  id: number;
   cardNumber: number;
   startDate: Date;
   expirationDate: Date;
@@ -54,9 +54,9 @@ type LibraryCard = {
 export type {LibraryCard};
 
 type Employee = {
-  employeeId: number;
+  id: number;
   fullName: string;
-  birthDate: string;
+  birthDate: Date;
   phoneNumber: string;
 };
 
