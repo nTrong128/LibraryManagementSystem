@@ -3,6 +3,7 @@ import {Button} from "@/components/ui/button";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Employee} from "@/type";
 import {VenetianMask} from "lucide-react";
+import Link from "next/link";
 
 export default async function EmployeePage() {
   let employee: Employee[] = [];
@@ -33,7 +34,9 @@ export default async function EmployeePage() {
               <CardTitle>Nhân viên</CardTitle>
             </div>
 
-            <Button>Thêm nhân viên</Button>
+            <Link href={"/employee/new"}>
+              <Button>Thêm nhân viên</Button>
+            </Link>
           </div>
         </CardHeader>
       </Card>
