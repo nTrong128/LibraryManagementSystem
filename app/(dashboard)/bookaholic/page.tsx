@@ -16,9 +16,14 @@ import {Reader} from "@/type";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function Bookaholic() {
-  const {data, error} = useSWR("http://localhost:8080/api/v1/reader/", fetcher);
+  const {data, error} = useSWR(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/readers`,
+    fetcher
+  );
+
+  const readers: Reader[] = data?.data;
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!readers) return <div>Loading...</div>;
 
   return (
     <main>
@@ -40,12 +45,13 @@ export default function Bookaholic() {
             <TableHead className="w-[100px]">Reader ID</TableHead>
             <TableHead>Reader Name</TableHead>
             <TableHead>Address</TableHead>
-            <TableHead className="text-right">Card Number</TableHead>
+            <TableHead className="">Card Number</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.data.map((reader: Reader) => (
+          {readers.map((reader: Reader) => (
             <TableRow key={reader.readerId}>
+              <TableCell>{reader.readerId}</TableCell>
               <TableCell className="font-medium">{reader.readerName}</TableCell>
               <TableCell>{reader.address}</TableCell>
               <TableCell>{reader.libraryCard?.cardNumber}</TableCell>

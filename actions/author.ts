@@ -1,3 +1,4 @@
-export async function Author() {
-  const data = await fetch("http://localhost:8080/api/v1/authors");
+export async function getAuthors() {
+  const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/authors`);
+  return data.json();
 }

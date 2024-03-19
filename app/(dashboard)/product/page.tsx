@@ -10,16 +10,25 @@ import {
 } from "@/components/ui/table";
 import {Book} from "@/type";
 import {BookOpen} from "lucide-react";
+import Link from "next/link";
 
 export default async function ProductPage() {
-  const res = await fetch(`${process.env.BACKEND_URL}/books`, {
-    method: "GET",
-    next: {tags: ["list-books"]},
-  });
-  const data = await res.json();
-  const book: Book[] = data.data;
+  let book: Book[] = [];
 
-  if (!data) return <div>Loading...</div>;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/books`, {
+      method: "GET",
+      next: {tags: ["list-books"]},
+      cache: "no-cache",
+    });
+
+    const data = await res.json();
+    book = data.data;
+
+    if (!data) return <div>Loading...</div>;
+  } catch (error) {
+    console.error("Error fetching books:", error);
+  }
 
   return (
     <main className="m-2">
@@ -31,7 +40,9 @@ export default async function ProductPage() {
               <CardTitle>Sách</CardTitle>
             </div>
 
-            <Button>Thêm sách</Button>
+            <Link href="/product/new">
+              <Button>Thêm sách</Button>
+            </Link>
           </div>
         </CardHeader>
       </Card>

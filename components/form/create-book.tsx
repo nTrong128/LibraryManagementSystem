@@ -35,22 +35,7 @@ const CreateBook = (props: IProps) => {
 
   return (
     <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-      <DialogContent>
-        <Form>
-          <FormField
-            control={form.control}
-            name="..."
-            render={() => (
-              <FormItem>
-                <FormLabel />
-                <FormControl>{/* Your form field */}</FormControl>
-                <FormDescription />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </Form>
-      </DialogContent>
+      <DialogContent></DialogContent>
     </Dialog>
   );
 };

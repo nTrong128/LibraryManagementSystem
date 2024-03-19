@@ -1,4 +1,3 @@
-"use client";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {PersonStanding} from "lucide-react";
@@ -10,19 +9,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useSWR from "swr";
-import {Author} from "@/type";
+import {CheckOut} from "@/type";
+export default async function CheckOut() {
+  let checkouts: CheckOut[] = [];
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/checkouts`,
+      {
+        method: "GET",
+        next: {tags: ["list-checkouts"]},
+        cache: "no-cache",
+      }
+    );
 
-export default function AuthorPage() {
-  const {data, error} = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/authors`,
-    fetcher
-  );
+    const data = await res.json();
+    checkouts = data.data;
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+    if (!data) return <div>Loading...</div>;
+  } catch (error) {
+    console.error("Error fetching checkouts:", error);
+  }
   return (
     <main>
       <Card className="flex-1">
@@ -30,9 +37,10 @@ export default function AuthorPage() {
           <div className="flex justify-between items-center">
             <div className="flex gap-x-2">
               <PersonStanding />
-              <CardTitle>Tác giả</CardTitle>
+              <CardTitle>Mượn sách</CardTitle>
             </div>
-            <Button>Thêm tác giả</Button>
+
+            <Button>Thêm mượn</Button>
           </div>
         </CardHeader>
       </Card>
@@ -42,17 +50,17 @@ export default function AuthorPage() {
             <TableRow>
               <TableHead className="w-[150px]">Mã mượn trả</TableHead>
               <TableHead>Số thẻ</TableHead>
-              <TableHead>Mã nhân viên</TableHead>
+              <TableHead>Nhân viên</TableHead>
               <TableHead>Ngày mượn</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.data.map((author: Author) => (
-              <TableRow key={author.id}>
-                <TableCell>{author.authorName}</TableCell>
-                <TableCell>{author.website}</TableCell>
-                <TableCell>{author.note}</TableCell>
-                <TableCell>{author.numberOfBooks}</TableCell>
+            {checkouts.map((checkout: CheckOut) => (
+              <TableRow key={checkout.id}>
+                <TableCell>{checkout.id}</TableCell>
+                <TableCell>{checkout.libraryCard.cardNumber}</TableCell>
+                <TableCell>{checkout.employee.fullName}</TableCell>
+                <TableCell>{checkout.checkOutDate}</TableCell>
               </TableRow>
             ))}
           </TableBody>

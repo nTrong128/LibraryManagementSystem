@@ -25,7 +25,7 @@ type Publisher = {
 export type {Publisher};
 
 type Book = {
-  id: string;
+  id: number;
   bookName: string;
   publicationYear: number;
   author: Author;
@@ -52,3 +52,21 @@ type LibraryCard = {
 };
 
 export type {LibraryCard};
+
+type Employee = {
+  employeeId: number;
+  fullName: string;
+  birthDate: string;
+  phoneNumber: string;
+};
+
+export type {Employee};
+
+type CheckOut = {
+  id: number;
+  libraryCard: LibraryCard;
+  employee: Employee;
+  checkOutDate: string;
+};
+
+export type {CheckOut};

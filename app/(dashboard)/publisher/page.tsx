@@ -11,12 +11,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useSWR from "swr";
-import {Category} from "@/type";
+import {Publisher} from "@/type";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function Category() {
   const {data, error} = useSWR(
-    "http://localhost:8080/api/v1/categories/",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/publishers`,
     fetcher
   );
   if (error) return <div>Failed to load</div>;
@@ -28,10 +28,10 @@ export default function Category() {
           <div className="flex justify-between items-center">
             <div className="flex gap-x-2">
               <PersonStanding />
-              <CardTitle>Thể loại</CardTitle>
+              <CardTitle>Nhà xuất bản</CardTitle>
             </div>
 
-            <Button>Thêm thể loại</Button>
+            <Button>Thêm nhà xuất bản</Button>
           </div>
         </CardHeader>
       </Card>
@@ -39,15 +39,19 @@ export default function Category() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Tên thể loại</TableHead>
+              <TableHead>Tên nhà xuất bản</TableHead>
+              <TableHead>Địa chỉ</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Thông tin đại diện</TableHead>
               <TableHead>Số lượng sách</TableHead>
-              <TableHead>Tác vụ</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.data.map((category: Category) => (
+            {data.data.map((category: Publisher) => (
               <TableRow key={category.id}>
-                <TableCell>{category.categoryName}</TableCell>
+                <TableCell>{category.publisherName}</TableCell>
+                <TableCell>{category.address}</TableCell>
+                <TableCell>{category.email}</TableCell>
                 <TableCell>{category.numberOfBooks}</TableCell>
                 <TableCell>
                   <div className="flex gap-x-2">

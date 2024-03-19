@@ -24,38 +24,43 @@ export default function NavigationBar() {
       <div className="flex-1 min-w-0">
         <nav className="flex items-center h-full gap-4 lg:gap-8">
           <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
             href="/dashboard">
             Trang chủ
           </Link>
           <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="product">
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="/product">
             Sách
           </Link>
           <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="author">
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="/author">
             Tác giả
           </Link>
           <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="category">
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="/publisher">
+            Nhà xuất bản
+          </Link>
+          <Link
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="/category">
             Thể loại sách
           </Link>
           <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="bookaholic">
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="/bookaholic">
             Độc giả
           </Link>
           <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="staff">
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="/employee">
             Nhân viên
           </Link>
           <Link
-            className="hidden lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="borrow">
+            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
+            href="/checkout">
             Mượn sách
           </Link>
         </nav>
