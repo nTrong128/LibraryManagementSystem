@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import useSWR from "swr";
 import {Category} from "@/type";
+import Link from "next/link";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function Category() {
@@ -31,7 +32,9 @@ export default function Category() {
               <CardTitle>Thể loại</CardTitle>
             </div>
 
-            <Button>Thêm thể loại</Button>
+            <Link href={"/category/new"}>
+              <Button>Thêm thể loại</Button>
+            </Link>
           </div>
         </CardHeader>
       </Card>
