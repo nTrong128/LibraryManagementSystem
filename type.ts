@@ -66,7 +66,7 @@ type CheckOut = {
   id: number;
   libraryCard: LibraryCard;
   employee: Employee;
-  checkOutDate: string;
+  checkoutDate: string;
 };
 
 export type {CheckOut};

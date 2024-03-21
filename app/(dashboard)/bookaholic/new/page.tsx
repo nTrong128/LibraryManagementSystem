@@ -13,6 +13,7 @@ import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/navigation";
 import axios from "axios";
+import action from "@/actions/action";
 
 export default function NewReaderPage() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function NewReaderPage() {
       );
       console.log(response);
       if (response.status === 201) {
+        action("list-readers");
         alert("Thêm đọc giả thành công");
         router.back();
       }

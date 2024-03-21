@@ -1,30 +1,27 @@
-"use client";
 import {Card, CardTitle, CardHeader} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {UserSearch} from "lucide-react";
-import useSWR from "swr";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {Reader} from "@/type";
 import Link from "next/link";
+import {BookaholicTable} from "@/components/component/bookaholic";
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+export default async function Bookaholic() {
+  let readers: Reader[] = [];
 
-export default function Bookaholic() {
-  const {data, error} = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/readers`,
-    fetcher
-  );
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/readers`, {
+      method: "GET",
+      next: {tags: ["list-readers"]},
+      cache: "no-cache",
+    });
 
-  const readers: Reader[] = data?.data;
-  if (error) return <div>Failed to load</div>;
-  if (!readers) return <div>Loading...</div>;
+    const data = await res.json();
+    readers = data.data;
+
+    if (!data) return <div>Loading...</div>;
+  } catch (error) {
+    console.error("Error fetching readers:", error);
+  }
 
   return (
     <main>
@@ -42,34 +39,7 @@ export default function Bookaholic() {
           </div>
         </CardHeader>
       </Card>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Reader ID</TableHead>
-            <TableHead>Reader Name</TableHead>
-            <TableHead>Address</TableHead>
-            <TableHead className="">Card Number</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {readers.map((reader: Reader) => (
-            <TableRow key={reader.id}>
-              <TableCell>{reader.id}</TableCell>
-              <TableCell className="font-medium">{reader.readerName}</TableCell>
-              <TableCell>{reader.address}</TableCell>
-              {reader.libraryCard?.cardNumber ? (
-                <TableCell>{reader.libraryCard?.cardNumber}</TableCell>
-              ) : (
-                <TableCell>
-                  <Link href={`/bookaholic/${reader.id}/newcard`}>
-                    <Button variant={"secondary"}>Thêm thẻ</Button>
-                  </Link>
-                </TableCell>
-              )}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <BookaholicTable readers={readers} />
     </main>
   );
 }

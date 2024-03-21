@@ -25,10 +25,12 @@ export default async function CheckOut() {
 
     const data = await res.json();
     checkouts = data.data;
+    console.log(checkouts);
 
     if (!data) return <div>Loading...</div>;
   } catch (error) {
     console.error("Error fetching checkouts:", error);
+    return <div>Failed to load</div>;
   }
   return (
     <main>
@@ -59,8 +61,8 @@ export default async function CheckOut() {
               <TableRow key={checkout.id}>
                 <TableCell>{checkout.id}</TableCell>
                 <TableCell>{checkout.libraryCard.cardNumber}</TableCell>
-                <TableCell>{checkout.employee.fullName}</TableCell>
-                <TableCell>{checkout.checkOutDate}</TableCell>
+                <TableCell>{checkout?.employee?.fullName}</TableCell>
+                <TableCell>{checkout.checkoutDate}</TableCell>
               </TableRow>
             ))}
           </TableBody>

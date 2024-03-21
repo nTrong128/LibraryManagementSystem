@@ -1,61 +1,62 @@
 "use client";
+import {Trash2} from "lucide-react";
+import {Button} from "../ui/button";
 import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableCell,
-  TableBody,
   Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
 } from "@/components/ui/table";
-import {Author} from "@/type";
+import {Book} from "@/type";
+import {useState} from "react";
 import {
   AlertDialog,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogAction,
   AlertDialogHeader,
-  AlertDialogFooter,
+  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {useState} from "react";
+import {deleteProduct} from "@/actions/product";
 import {useToast} from "@/components/ui/use-toast";
-import {deleteAuthor} from "@/actions/author";
-import {Trash2} from "lucide-react";
-import {Button} from "@/components/ui/button";
 
-export function AuthorTable(prop: {authors: Author[]}) {
+export function ProductTable(prop: {book: Book[]}) {
   const {toast} = useToast();
-  const [selectedAuthor, setSelectedAuthor] = useState<Author>();
+  const [selectedBook, setSelectedBook] = useState<Book>();
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <Table className="max-w-6xl mt-10 mx-auto">
+      <Table className="mx-auto my-10 border max-w-6xl">
         <TableHeader>
           <TableRow>
-            <TableHead>Mã tác giả</TableHead>
-            <TableHead>Tên tác giả</TableHead>
-            <TableHead>Trang web</TableHead>
-            <TableHead>Ghi chú</TableHead>
-            <TableHead>Số lượng sách</TableHead>
+            <TableHead className="w-[100px]">Mã sách</TableHead>
+            <TableHead>Tiêu đề</TableHead>
+            <TableHead>Tác giả</TableHead>
+            <TableHead>Thể loại</TableHead>
+            <TableHead>Nhà xuất bản</TableHead>
+            <TableHead>Năm xuất bản</TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.authors.map((author: Author) => (
-            <TableRow key={author.id}>
-              <TableCell>{author.id}</TableCell>
-              <TableCell>{author.authorName}</TableCell>
-              <TableCell>{author.website}</TableCell>
-              <TableCell>{author.note}</TableCell>
-              <TableCell className="text-center">
-                {author.numberOfBooks}
-              </TableCell>
+          {prop.book.map((book: Book) => (
+            <TableRow key={book.id}>
+              <TableCell className="font-medium">{book.id}</TableCell>
+              <TableCell>{book.bookName}</TableCell>
+              <TableCell>{book.author.authorName}</TableCell>
+              <TableCell>{book.category.categoryName}</TableCell>
+              <TableCell>{book.publisher.publisherName}</TableCell>
+              <TableCell>{book.publicationYear}</TableCell>
               <TableCell>
                 <Button
                   className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                   onClick={() => {
-                    setSelectedAuthor(author);
+                    setSelectedBook(book);
                     setIsOpen(true);
                   }}>
                   <Trash2 />
@@ -69,30 +70,30 @@ export function AuthorTable(prop: {authors: Author[]}) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Bạn có chắc muốn xóa tác giả:{" "}
+              Bạn có chắc muốn xóa sách:{" "}
               <span className="italic text-red-500">
-                {selectedAuthor?.authorName}
+                {selectedBook?.bookName}
               </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Tất cả thông tin liên quan đến đọc giả sẽ bị xóa, bạn có chắc chắn
-              muốn xóa đọc giả này không?
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className="hover:bg-red-600"
               onClick={async () => {
                 setIsOpen(false);
-                const res = await deleteAuthor(selectedAuthor?.id || 0);
+                const res = await deleteProduct(selectedBook?.id || 0);
                 if (res.statusCode === 200) {
                   toast({
-                    title: "Xóa tác giả thành công",
+                    title: "Xóa sách thành công",
                     description: (
                       <>
                         <span className="font-bold italic">
-                          {selectedAuthor?.authorName}
+                          {selectedBook?.bookName}
                         </span>{" "}
                         đã được xóa thành công
                       </>
@@ -101,14 +102,13 @@ export function AuthorTable(prop: {authors: Author[]}) {
                   });
                 } else {
                   toast({
-                    title: "Xóa tác giả thất bại",
-                    description:
-                      "Có lỗi xảy ra khi xóa đọc giả, có thể tác giả này đang có thông tin liên quan khác",
+                    title: "Xóa sách thất bại",
+                    description: "Có lỗi xảy ra khi xóa sách",
                     duration: 3000,
                   });
                 }
               }}>
-              Tiếp tục
+              Continue
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

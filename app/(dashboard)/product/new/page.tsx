@@ -17,7 +17,6 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -25,7 +24,7 @@ import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/navigation";
 import axios from "axios";
-import Link from "next/link";
+import action from "@/actions/action";
 
 export default function NewProductPage() {
   const [author, setAuthor] = useState<Author[]>([]);
@@ -67,6 +66,7 @@ export default function NewProductPage() {
       );
       console.log(response);
       if (response.status === 201) {
+        action("list-books");
         alert("Thêm sản phẩm thành công");
         router.push("/product");
       }
