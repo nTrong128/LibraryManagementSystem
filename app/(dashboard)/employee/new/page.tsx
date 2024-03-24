@@ -43,14 +43,12 @@ export default function NewPublisherPage() {
     if (value) {
       values.birthDate = formatDate(value.toLocaleString("vi-VN"));
     }
-    console.log(values);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees`,
         values,
         {headers: {Authorization: `Bearer ${accessToken}`}}
       );
-      console.log(response);
       if (response.status === 201) {
         alert("Thêm nhân viên thành công");
         action("list-employees");

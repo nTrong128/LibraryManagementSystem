@@ -34,7 +34,6 @@ export default function NewCategoryPage() {
         values,
         {headers: {Authorization: `Bearer ${accessToken}`}}
       );
-      console.log(response);
       if (response.status === 201) {
         action("list-categories");
         alert("Thêm thể loại thành công");

@@ -34,7 +34,6 @@ export default function NewReaderPage() {
         values,
         {headers: {Authorization: `Bearer ${accessToken}`}}
       );
-      console.log(response);
       if (response.status === 201) {
         action("list-readers");
         alert("Thêm đọc giả thành công");

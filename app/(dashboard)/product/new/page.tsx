@@ -69,7 +69,6 @@ export default function NewProductPage() {
         values,
         {headers: {Authorization: `Bearer ${accessToken}`}}
       );
-      console.log(response);
       if (response.status === 201) {
         action("list-books");
         alert("Thêm sản phẩm thành công");

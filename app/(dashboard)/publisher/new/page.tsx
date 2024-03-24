@@ -35,7 +35,6 @@ export default function NewPublisherPage() {
         values,
         {headers: {Authorization: `Bearer ${accessToken}`}}
       );
-      console.log(response);
       if (response.status === 201) {
         action("list-publihsers");
         alert("Thêm nhà xuất bản thành công");

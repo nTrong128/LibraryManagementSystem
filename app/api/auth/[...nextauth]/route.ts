@@ -1,22 +1,8 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import {redirect} from "next/navigation";
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      image: string;
-      username: string;
-      role: string;
-      enabled: boolean;
-      accessToken: string;
-    };
-  }
-}
 
-const handler = NextAuth({
+export const authOptions = {
   pages: {
     signIn: "/login",
   },
@@ -73,14 +59,16 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({token, user}) {
+    async jwt({token, user}: {token: any; user: any}) {
       return {...token, ...user};
     },
-    async session({session, token, user}) {
-      session.user = token as any;
+    async session({session, token}: {session: any; token: any}) {
+      session.user = token;
       return session;
     },
   },
-});
+};
+
+export const handler = NextAuth(authOptions);
 
 export {handler as POST, handler as GET};

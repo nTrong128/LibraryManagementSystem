@@ -11,7 +11,6 @@ import {useRouter} from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
-  const session = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [isPendding, startTransition] = useTransition();
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -20,7 +19,6 @@ export default function LoginPage() {
       username: event.currentTarget.username.value,
       password: event.currentTarget.password.value,
     };
-    console.log(user);
     startTransition(async () => {
       try {
         const res = await signIn("credentials", {
