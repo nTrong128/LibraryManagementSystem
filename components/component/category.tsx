@@ -1,4 +1,5 @@
 "use client";
+import {Category} from "@/type";
 import {
   TableHead,
   TableRow,
@@ -7,55 +8,50 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table";
-import {Employee} from "@/type";
 import {Button} from "@/components/ui/button";
+import {useState} from "react";
+import {useToast} from "@/components/ui/use-toast";
 import {
   AlertDialog,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogAction,
-  AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogHeader,
+  AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import {useToast} from "@/components/ui/use-toast";
-import {useState} from "react";
+import {deleteReader} from "@/actions/reader";
 import {Trash2} from "lucide-react";
-import {deleteEmployee} from "@/actions/employee";
+import {DeleteCategory} from "@/actions/category";
 
-export function Staff(prop: {employees: Employee[]}) {
+export function CategoryTable(prop: {categories: Category[]}) {
   const {toast} = useToast();
-  const [selected, setselected] = useState<Employee>();
+  const [selectedReder, setSelectedReder] = useState<Reader>();
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <Table className="border mt-10 mx-auto max-w-5xl">
+      <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mã Nhân viên</TableHead>
-            <TableHead>Họ và Tên</TableHead>
-            <TableHead>Ngày Sinh</TableHead>
-            <TableHead>Số điện thoại</TableHead>
+            <TableHead>Tên thể loại</TableHead>
+            <TableHead>Số lượng sách</TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.employees.map((employee: Employee) => (
-            <TableRow key={employee.id}>
-              <TableCell>{employee.id}</TableCell>
-              <TableCell>{employee.fullName}</TableCell>
-              <TableCell>
-                {new Date(employee.birthDate).toLocaleDateString("vi-VN")}
-              </TableCell>
-              <TableCell>{employee.phoneNumber}</TableCell>
+          {prop.categories.map((category: Category) => (
+            <TableRow key={category.id}>
+              <TableCell>{category.categoryName}</TableCell>
+              <TableCell>{category.numberOfBooks}</TableCell>
               <TableCell>
                 <div className="flex gap-x-2">
                   <Button>Sửa</Button>
                   <Button
                     className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                     onClick={() => {
-                      setselected(employee);
+                      setSelectedReder(category);
                       setIsOpen(true);
                     }}>
                     <Trash2 />
@@ -66,32 +62,35 @@ export function Staff(prop: {employees: Employee[]}) {
           ))}
         </TableBody>
       </Table>
+
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Bạn có chắc muốn xóa nhân viên:{" "}
-              <span className="italic text-red-500">{selected?.fullName}</span>
+              Bạn có chắc muốn xóa thể loại sách:{" "}
+              <span className="italic text-red-500">
+                {selectedReder?.readerName}
+              </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa nhân
-              viên này?
+              Tất cả thông tin liên quan đến thể loại sách sẽ bị xóa, bạn có
+              chắc chắn muốn xóa thể loại sách này không?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
             <AlertDialogAction
               className="hover:bg-red-600"
               onClick={async () => {
                 setIsOpen(false);
-                const res = await deleteEmployee(selected?.id || 0);
+                const res = await DeleteCategory(selectedReder?.id || 0);
                 if (res.statusCode === 200) {
                   toast({
-                    title: "Xóa sách thành công",
+                    title: "Xóa thể loại sách thành công",
                     description: (
                       <>
                         <span className="font-bold italic">
-                          {selected?.fullName}
+                          {selectedReder?.readerName}
                         </span>{" "}
                         đã được xóa thành công
                       </>
@@ -100,13 +99,14 @@ export function Staff(prop: {employees: Employee[]}) {
                   });
                 } else {
                   toast({
-                    title: "Xóa nhân viên thất bại",
-                    description: "Có lỗi xảy ra khi xóa nhân viên",
+                    title: "Xóa thể loại sách thất bại",
+                    description:
+                      "Có lỗi xảy ra khi xóa thể loại sách, có thể thể loại sách này đang mượn sách hoặc có thông tin liên quan khác.",
                     duration: 3000,
                   });
                 }
               }}>
-              Continue
+              Tiếp tục
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -20,9 +20,13 @@ import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import {Calendar, Eraser} from "lucide-react";
 import {formatDate} from "@/lib/tools";
-import {format} from "path";
+import {useSession} from "next-auth/react";
+import action from "@/actions/action";
 
 export default function NewPublisherPage() {
+  const session = useSession();
+  const accessToken = session?.data?.user.accessToken;
+
   type ValuePiece = Date | null;
 
   type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -43,11 +47,13 @@ export default function NewPublisherPage() {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees`,
-        values
+        values,
+        {headers: {Authorization: `Bearer ${accessToken}`}}
       );
       console.log(response);
       if (response.status === 201) {
         alert("Thêm nhân viên thành công");
+        action("list-employees");
         router.back();
       }
     } catch (error) {

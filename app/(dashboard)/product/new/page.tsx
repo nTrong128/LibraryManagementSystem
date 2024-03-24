@@ -25,8 +25,12 @@ import {useForm} from "react-hook-form";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import action from "@/actions/action";
+import {useSession} from "next-auth/react";
 
 export default function NewProductPage() {
+  const session = useSession();
+  const accessToken = session?.data?.user.accessToken;
+
   const [author, setAuthor] = useState<Author[]>([]);
   const [category, setCategory] = useState<Category[]>([]);
   const [publisher, setPublisher] = useState<Publisher[]>([]);
@@ -62,7 +66,8 @@ export default function NewProductPage() {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/books`,
-        values
+        values,
+        {headers: {Authorization: `Bearer ${accessToken}`}}
       );
       console.log(response);
       if (response.status === 201) {

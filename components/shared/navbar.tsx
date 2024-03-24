@@ -7,10 +7,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {LogOutButton} from "./logout-button";
 
 export default function NavigationBar() {
   return (
@@ -89,10 +89,7 @@ export default function NavigationBar() {
               </DropdownMenuItem>
 
               <DropdownMenuItem>
-                <Button variant={"ghost"}>
-                  <LogOut />
-                  Đăng xuất
-                </Button>
+                <LogOutButton>Đăng xuất</LogOutButton>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -1,14 +1,14 @@
 "use client";
+import {Button} from "@/components/ui/button";
 import {
-  TableHead,
+  Table,
+  TableBody,
   TableRow,
+  TableHead,
   TableHeader,
   TableCell,
-  TableBody,
-  Table,
 } from "@/components/ui/table";
-import {Employee} from "@/type";
-import {Button} from "@/components/ui/button";
+import {Publisher} from "@/type";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -22,40 +22,41 @@ import {
 import {useToast} from "@/components/ui/use-toast";
 import {useState} from "react";
 import {Trash2} from "lucide-react";
-import {deleteEmployee} from "@/actions/employee";
+import {deletePublisher} from "@/actions/publisher";
 
-export function Staff(prop: {employees: Employee[]}) {
+export function PublisherTable(prop: {publishers: Publisher[]}) {
   const {toast} = useToast();
-  const [selected, setselected] = useState<Employee>();
+  const [selected, setselectedPublisher] = useState<Publisher>();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <Table className="border mt-10 mx-auto max-w-5xl">
+      <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mã Nhân viên</TableHead>
-            <TableHead>Họ và Tên</TableHead>
-            <TableHead>Ngày Sinh</TableHead>
-            <TableHead>Số điện thoại</TableHead>
-            <TableHead>Tác vụ</TableHead>
+            <TableHead>Mã NXB</TableHead>
+            <TableHead>Tên nhà xuất bản</TableHead>
+            <TableHead>Địa chỉ</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Thông tin đại diện</TableHead>
+            <TableHead>Số lượng sách</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.employees.map((employee: Employee) => (
-            <TableRow key={employee.id}>
-              <TableCell>{employee.id}</TableCell>
-              <TableCell>{employee.fullName}</TableCell>
-              <TableCell>
-                {new Date(employee.birthDate).toLocaleDateString("vi-VN")}
-              </TableCell>
-              <TableCell>{employee.phoneNumber}</TableCell>
+          {prop.publishers.map((publisher: Publisher) => (
+            <TableRow key={publisher.id}>
+              <TableCell>{publisher.id}</TableCell>
+              <TableCell>{publisher.publisherName}</TableCell>
+              <TableCell>{publisher.address}</TableCell>
+              <TableCell>{publisher.email}</TableCell>
+              <TableCell>{publisher.representativeInfo}</TableCell>
+              <TableCell>{publisher.numberOfBooks}</TableCell>
               <TableCell>
                 <div className="flex gap-x-2">
                   <Button>Sửa</Button>
                   <Button
                     className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                     onClick={() => {
-                      setselected(employee);
+                      setselectedPublisher(publisher);
                       setIsOpen(true);
                     }}>
                     <Trash2 />
@@ -70,12 +71,14 @@ export function Staff(prop: {employees: Employee[]}) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Bạn có chắc muốn xóa nhân viên:{" "}
-              <span className="italic text-red-500">{selected?.fullName}</span>
+              Bạn có chắc muốn xóa nhà xuất bản:{" "}
+              <span className="italic text-red-500">
+                {selected?.publisherName}
+              </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
-              Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa nhân
-              viên này?
+              Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa nhà
+              xuất bản này?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -84,14 +87,14 @@ export function Staff(prop: {employees: Employee[]}) {
               className="hover:bg-red-600"
               onClick={async () => {
                 setIsOpen(false);
-                const res = await deleteEmployee(selected?.id || 0);
+                const res = await deletePublisher(selected?.id || 0);
                 if (res.statusCode === 200) {
                   toast({
                     title: "Xóa sách thành công",
                     description: (
                       <>
                         <span className="font-bold italic">
-                          {selected?.fullName}
+                          {selected?.publisherName}
                         </span>{" "}
                         đã được xóa thành công
                       </>
@@ -100,8 +103,8 @@ export function Staff(prop: {employees: Employee[]}) {
                   });
                 } else {
                   toast({
-                    title: "Xóa nhân viên thất bại",
-                    description: "Có lỗi xảy ra khi xóa nhân viên",
+                    title: "Xóa nhà xuất bản thất bại",
+                    description: "Có lỗi xảy ra khi xóa nhà xuất bản",
                     duration: 3000,
                   });
                 }

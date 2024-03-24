@@ -4,25 +4,33 @@ import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Employee} from "@/type";
 import {VenetianMask} from "lucide-react";
 import Link from "next/link";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/auth";
 
 export default async function EmployeePage() {
+  const session = await getServerSession(authOptions);
+
   let employee: Employee[] = [];
 
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees`,
       {
+        headers: {
+          Authorization: `Bearer ${session?.user?.accessToken}`, // Update the property name to 'accessToken'
+        },
         method: "GET",
         next: {tags: ["list-employees"]},
         cache: "no-cache",
       }
     );
-
     const data = await res.json();
+
     employee = data.data;
-    if (!data) return <div>Loading...</div>;
+    if (!employee) return <div>Loading...</div>;
   } catch (error) {
     console.error("Error fetching books:", error);
+    return <div>Loading...</div>;
   }
   return (
     <main>

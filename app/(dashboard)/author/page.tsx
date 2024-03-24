@@ -4,12 +4,18 @@ import {PersonStanding} from "lucide-react";
 import Link from "next/link";
 import {AuthorTable} from "@/components/component/author";
 import {Author} from "@/type";
+import {authOptions} from "@/auth";
+import {getServerSession} from "next-auth";
 
 export default async function AuthorPage() {
+  const session = await getServerSession(authOptions);
   let authors: Author[] = [];
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/authors`, {
+      headers: {
+        Authorization: `Bearer ${session?.user?.accessToken}`,
+      },
       method: "GET",
       next: {tags: ["list-authors"]},
       cache: "no-cache",

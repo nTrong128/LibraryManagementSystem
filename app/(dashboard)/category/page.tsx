@@ -1,27 +1,37 @@
-"use client";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {PersonStanding} from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import useSWR from "swr";
 import {Category} from "@/type";
 import Link from "next/link";
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/auth";
+import {CategoryTable} from "@/components/component/category";
 
-export default function Category() {
-  const {data, error} = useSWR(
-    "http://localhost:8080/api/v1/categories/",
-    fetcher
-  );
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading...</div>;
+export default async function Category() {
+  const session = await getServerSession(authOptions);
+
+  let categories: Category[] = [];
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user?.accessToken}`,
+        },
+        method: "GET",
+        next: {tags: ["list-categories"]},
+        cache: "no-cache",
+      }
+    );
+
+    const data = await res.json();
+    categories = data.data;
+    if (!data) return <div>Loading...</div>;
+  } catch (error) {
+    console.error("Error fetching books:", error);
+  }
+
   return (
     <main>
       <Card className="flex-1">
@@ -39,29 +49,7 @@ export default function Category() {
         </CardHeader>
       </Card>
       <div className=" mx-auto my-10 border max-w-3xl">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Tên thể loại</TableHead>
-              <TableHead>Số lượng sách</TableHead>
-              <TableHead>Tác vụ</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.data.map((category: Category) => (
-              <TableRow key={category.id}>
-                <TableCell>{category.categoryName}</TableCell>
-                <TableCell>{category.numberOfBooks}</TableCell>
-                <TableCell>
-                  <div className="flex gap-x-2">
-                    <Button>Sửa</Button>
-                    <Button>Xóa</Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <CategoryTable categories={categories} />
       </div>
     </main>
   );

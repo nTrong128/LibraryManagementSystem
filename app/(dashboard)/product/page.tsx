@@ -4,12 +4,18 @@ import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Book} from "@/type";
 import {BookOpen} from "lucide-react";
 import Link from "next/link";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/auth";
 
 export default async function ProductPage() {
+  const session = await getServerSession(authOptions);
   let book: Book[] = [];
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/books`, {
+      headers: {
+        Authorization: `Bearer ${session?.user?.accessToken}`, // Update the property name to 'accessToken'
+      },
       method: "GET",
       next: {tags: ["list-books"]},
       cache: "no-cache",

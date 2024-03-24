@@ -48,9 +48,9 @@ export function ProductTable(prop: {book: Book[]}) {
             <TableRow key={book.id}>
               <TableCell className="font-medium">{book.id}</TableCell>
               <TableCell>{book.bookName}</TableCell>
-              <TableCell>{book.author.authorName}</TableCell>
-              <TableCell>{book.category.categoryName}</TableCell>
-              <TableCell>{book.publisher.publisherName}</TableCell>
+              <TableCell>{book.author?.authorName}</TableCell>
+              <TableCell>{book.category?.categoryName}</TableCell>
+              <TableCell>{book.publisher?.publisherName}</TableCell>
               <TableCell>{book.publicationYear}</TableCell>
               <TableCell>
                 <Button

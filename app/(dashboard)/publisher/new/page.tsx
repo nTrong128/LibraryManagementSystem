@@ -14,8 +14,12 @@ import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/navigation";
 import axios from "axios";
+import {useSession} from "next-auth/react";
+import action from "@/actions/action";
 
 export default function NewPublisherPage() {
+  const session = useSession();
+  const accessToken = session?.data?.user.accessToken;
   const router = useRouter();
 
   const form = useForm();
@@ -28,10 +32,12 @@ export default function NewPublisherPage() {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/publishers`,
-        values
+        values,
+        {headers: {Authorization: `Bearer ${accessToken}`}}
       );
       console.log(response);
       if (response.status === 201) {
+        action("list-publihsers");
         alert("Thêm nhà xuất bản thành công");
         router.back();
       }

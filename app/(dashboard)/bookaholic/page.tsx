@@ -4,12 +4,18 @@ import {UserSearch} from "lucide-react";
 import {Reader} from "@/type";
 import Link from "next/link";
 import {BookaholicTable} from "@/components/component/bookaholic";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/auth";
 
 export default async function Bookaholic() {
-  let readers: Reader[] = [];
+  const session = await getServerSession(authOptions);
 
+  let readers: Reader[] = [];
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/readers`, {
+      headers: {
+        Authorization: `Bearer ${session?.user?.accessToken}`, // Update the property name to 'accessToken'
+      },
       method: "GET",
       next: {tags: ["list-readers"]},
       cache: "no-cache",
@@ -18,11 +24,18 @@ export default async function Bookaholic() {
     const data = await res.json();
     readers = data.data;
 
-    if (!data) return <div>Loading...</div>;
+    if (!readers)
+      return (
+        <div className="pt-10 text-5xl mx-auto text-center">
+          Something went wrong!
+        </div>
+      );
   } catch (error) {
     console.error("Error fetching readers:", error);
+    <div className="pt-10 text-5xl mx-auto text-center">
+      Something went wrong!
+    </div>;
   }
-
   return (
     <main>
       <Card className="flex-1">

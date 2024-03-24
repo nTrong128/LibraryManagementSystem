@@ -23,6 +23,7 @@ import {useToast} from "@/components/ui/use-toast";
 import {deleteAuthor} from "@/actions/author";
 import {Trash2} from "lucide-react";
 import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 export function AuthorTable(prop: {authors: Author[]}) {
   const {toast} = useToast();
@@ -46,7 +47,14 @@ export function AuthorTable(prop: {authors: Author[]}) {
             <TableRow key={author.id}>
               <TableCell>{author.id}</TableCell>
               <TableCell>{author.authorName}</TableCell>
-              <TableCell>{author.website}</TableCell>
+              <TableCell>
+                <Link
+                  target="_blank"
+                  href={`http://${author?.website}`}
+                  className=" hover:text-blue-800">
+                  {author?.website}
+                </Link>
+              </TableCell>
               <TableCell>{author.note}</TableCell>
               <TableCell className="text-center">
                 {author.numberOfBooks}

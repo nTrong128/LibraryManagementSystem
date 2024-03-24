@@ -1,18 +1,12 @@
 "use server";
-
+import action from "@/actions/action";
 import {authOptions} from "@/auth";
 import {getServerSession} from "next-auth";
-import action from "@/actions/action";
 
-export async function getPublishers() {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/publishers`);
-  return data.json();
-}
-
-export async function deletePublisher(id: number) {
+export async function deleteEmployee(id: number) {
   const session = await getServerSession(authOptions);
   const data = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/publishers/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${id}`,
     {
       method: "DELETE",
       headers: {
@@ -20,6 +14,6 @@ export async function deletePublisher(id: number) {
       },
     }
   );
-  action("list-publishers");
+  action("list-employees");
   return data.json();
 }
