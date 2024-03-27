@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import {LibraryBig, LogOut, Settings, User} from "lucide-react";
 import Link from "next/link";
@@ -11,8 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {LogOutButton} from "./logout-button";
+import {usePathname} from "next/navigation";
 
 export default function NavigationBar() {
+  const pathname = usePathname();
   return (
     <header className="flex items-center h-16 px-4 border-b gap-4 lg:gap-8 w-full">
       <Link
@@ -22,47 +25,49 @@ export default function NavigationBar() {
         LMS
       </Link>
       <div className="flex-1 min-w-0">
-        <nav className="flex items-center h-full gap-4 lg:gap-8">
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/dashboard">
-            Trang chủ
-          </Link>
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/product">
-            Sách
-          </Link>
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/author">
-            Tác giả
-          </Link>
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/publisher">
-            Nhà xuất bản
-          </Link>
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/category">
-            Thể loại sách
-          </Link>
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/bookaholic">
-            Đọc giả
-          </Link>
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/employee">
-            Nhân viên
-          </Link>
-          <Link
-            className=" lg:flex items-center gap-2 text-sm font-medium [&:hover]:underline"
-            href="/checkout">
-            Mượn sách
-          </Link>
+        <nav className="flex items-start h-full lg:gap-2">
+          <Button
+            asChild
+            variant={pathname === "/dashboard" ? "default" : "outline"}>
+            <Link href="/dashboard">Tổng Quan</Link>
+          </Button>
+          <Button
+            asChild
+            variant={pathname === "/products" ? "default" : "outline"}>
+            <Link href="/products">Sách</Link>
+          </Button>
+          <Button
+            asChild
+            variant={pathname === "/authors" ? "default" : "outline"}>
+            <Link href="/authors">Tác giả</Link>
+          </Button>
+          <Button
+            asChild
+            variant={pathname === "/publishers" ? "default" : "outline"}>
+            <Link href="/publishers">Nhà xuất bản</Link>
+          </Button>
+          <Button
+            asChild
+            variant={pathname === "/categories" ? "default" : "outline"}>
+            <Link href="/categories">Thể loại</Link>
+          </Button>
+
+          <Button
+            asChild
+            variant={pathname === "/checkouts" ? "default" : "outline"}>
+            <Link href="/checkouts">Mượn sách</Link>
+          </Button>
+          <Button
+            asChild
+            variant={pathname === "/bookaholics" ? "default" : "outline"}>
+            <Link href="/bookaholics">Đọc giả</Link>
+          </Button>
+
+          <Button
+            asChild
+            variant={pathname === "/employees" ? "default" : "outline"}>
+            <Link href="/employees">Nhân viên</Link>
+          </Button>
         </nav>
       </div>
       <div>
