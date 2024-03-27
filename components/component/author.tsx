@@ -7,7 +7,7 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table";
-import {Author} from "@/type";
+import {Author} from "@/types";
 import {
   AlertDialog,
   AlertDialogContent,

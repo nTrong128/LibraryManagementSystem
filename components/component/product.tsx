@@ -1,5 +1,5 @@
 "use client";
-import {Trash2} from "lucide-react";
+import {ReceiptText, Trash2} from "lucide-react";
 import {Button} from "../ui/button";
 import {
   Table,
@@ -9,7 +9,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import {Book} from "@/type";
+import {Book} from "@/types";
 import {useState} from "react";
 import {
   AlertDialog,
@@ -23,8 +23,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import {deleteProduct} from "@/actions/product";
 import {useToast} from "@/components/ui/use-toast";
+import {useRouter} from "next/navigation";
+import EditBookDialog from "@/components/component/dialog/book-edit-dialog";
 
 export function ProductTable(prop: {book: Book[]}) {
+  const router = useRouter();
   const {toast} = useToast();
   const [selectedBook, setSelectedBook] = useState<Book>();
   const [isOpen, setIsOpen] = useState(false);
@@ -52,9 +55,15 @@ export function ProductTable(prop: {book: Book[]}) {
               <TableCell>{book.category?.categoryName}</TableCell>
               <TableCell>{book.publisher?.publisherName}</TableCell>
               <TableCell>{book.publicationYear}</TableCell>
-              <TableCell>
+              <TableCell className="flex gap-y-2">
                 <Button
-                  className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
+                  className="text-blue-700 bg-blue-100 hover:text-blue-800 hover:bg-blue-200 mx-2"
+                  onClick={() => router.push(`/products/${book.id}`)}>
+                  <ReceiptText />
+                </Button>
+                <EditBookDialog book={book} isSmallIcon={true} />
+                <Button
+                  className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200 mx-2"
                   onClick={() => {
                     setSelectedBook(book);
                     setIsOpen(true);

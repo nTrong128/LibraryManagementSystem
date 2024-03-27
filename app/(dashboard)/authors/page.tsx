@@ -3,7 +3,7 @@ import {Button} from "@/components/ui/button";
 import {PersonStanding} from "lucide-react";
 import Link from "next/link";
 import {AuthorTable} from "@/components/component/author";
-import {Author} from "@/type";
+import {Author} from "@/types";
 import {authOptions} from "@/auth";
 import {getServerSession} from "next-auth";
 
@@ -37,7 +37,7 @@ export default async function AuthorPage() {
               <PersonStanding />
               <CardTitle>Tác giả</CardTitle>
             </div>
-            <Link href={"/author/new"}>
+            <Link href={"/authors/new"}>
               <Button>Thêm tác giả</Button>
             </Link>
           </div>

@@ -1,5 +1,5 @@
 "use client";
-import {Category} from "@/type";
+import {Category} from "@/types";
 import {
   TableHead,
   TableRow,
@@ -35,6 +35,7 @@ export function CategoryTable(prop: {categories: Category[]}) {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Mã loại</TableHead>
             <TableHead>Tên thể loại</TableHead>
             <TableHead>Số lượng sách</TableHead>
             <TableHead>Tác vụ</TableHead>
@@ -43,6 +44,7 @@ export function CategoryTable(prop: {categories: Category[]}) {
         <TableBody>
           {prop.categories.map((category: Category) => (
             <TableRow key={category.id}>
+              <TableCell>{category.id}</TableCell>
               <TableCell>{category.categoryName}</TableCell>
               <TableCell>{category.numberOfBooks}</TableCell>
               <TableCell>

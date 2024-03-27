@@ -1,7 +1,7 @@
 import {ProductTable} from "@/components/component/product";
 import {Button} from "@/components/ui/button";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
-import {Book} from "@/type";
+import {Book} from "@/types";
 import {BookOpen} from "lucide-react";
 import Link from "next/link";
 import {getServerSession} from "next-auth";
@@ -38,7 +38,7 @@ export default async function ProductPage() {
               <BookOpen />
               <CardTitle>Sách</CardTitle>
             </div>
-            <Link href="/product/new">
+            <Link href="/products/new">
               <Button>Thêm sách</Button>
             </Link>
           </div>

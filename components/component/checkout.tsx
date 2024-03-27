@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {CheckOut} from "@/type";
+import {CheckOut} from "@/types";
 
 export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
   return (

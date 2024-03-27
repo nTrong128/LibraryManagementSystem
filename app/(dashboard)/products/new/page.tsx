@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {Author, Category, Publisher} from "@/type";
+import {Author, Category, Publisher} from "@/types";
 import {
   Select,
   SelectContent,
@@ -185,7 +185,7 @@ export default function NewProductPage() {
                 name="publisherId"
                 render={({field}) => (
                   <FormItem>
-                    <FormLabel>Tên loại</FormLabel>
+                    <FormLabel>Tên nhà xuất bản</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}>

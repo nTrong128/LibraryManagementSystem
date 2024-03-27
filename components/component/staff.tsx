@@ -7,7 +7,7 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table";
-import {Employee} from "@/type";
+import {Employee} from "@/types";
 import {Button} from "@/components/ui/button";
 import {
   AlertDialog,

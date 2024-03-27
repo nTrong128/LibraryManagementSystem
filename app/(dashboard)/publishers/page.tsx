@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useSWR from "swr";
-import {Publisher} from "@/type";
+import {Publisher} from "@/types";
 import Link from "next/link";
 import {PublisherTable} from "@/components/component/publisher";
 import {getServerSession} from "next-auth/next";

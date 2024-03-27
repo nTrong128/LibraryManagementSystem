@@ -1,7 +1,7 @@
 import {Staff} from "@/components/component/staff";
 import {Button} from "@/components/ui/button";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
-import {Employee} from "@/type";
+import {Employee} from "@/types";
 import {VenetianMask} from "lucide-react";
 import Link from "next/link";
 import {getServerSession} from "next-auth";
@@ -42,7 +42,7 @@ export default async function EmployeePage() {
               <CardTitle>Nhân viên</CardTitle>
             </div>
 
-            <Link href={"/employee/new"}>
+            <Link href={"/employees/new"}>
               <Button>Thêm nhân viên</Button>
             </Link>
           </div>

@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableCell,
 } from "@/components/ui/table";
-import {Publisher} from "@/type";
+import {Publisher} from "@/types";
 import {
   AlertDialog,
   AlertDialogCancel,

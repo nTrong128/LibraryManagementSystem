@@ -7,7 +7,7 @@ import {
   TableBody,
   Table,
 } from "@/components/ui/table";
-import {Reader} from "@/type";
+import {Reader} from "@/types";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {useState} from "react";

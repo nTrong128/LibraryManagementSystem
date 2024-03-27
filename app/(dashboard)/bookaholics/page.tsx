@@ -1,7 +1,7 @@
 import {Card, CardTitle, CardHeader} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {UserSearch} from "lucide-react";
-import {Reader} from "@/type";
+import {Reader} from "@/types";
 import Link from "next/link";
 import {BookaholicTable} from "@/components/component/bookaholic";
 import {getServerSession} from "next-auth";
@@ -46,7 +46,7 @@ export default async function Bookaholic() {
               <CardTitle>Độc giả</CardTitle>
             </div>
 
-            <Link href={"/bookaholic/new"}>
+            <Link href={"/bookaholics/new"}>
               <Button>Thêm độc giả</Button>
             </Link>
           </div>
