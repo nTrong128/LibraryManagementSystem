@@ -24,6 +24,7 @@ import {deleteAuthor} from "@/actions/author";
 import {Trash2} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import EditAuthorDialog from "./dialog/author-edit-dialog";
 
 export function AuthorTable(prop: {authors: Author[]}) {
   const {toast} = useToast();
@@ -50,7 +51,7 @@ export function AuthorTable(prop: {authors: Author[]}) {
               <TableCell>
                 <Link
                   target="_blank"
-                  href={`http://${author?.website}`}
+                  href={`${author?.website}`}
                   className=" hover:text-blue-800">
                   {author?.website}
                 </Link>
@@ -60,6 +61,7 @@ export function AuthorTable(prop: {authors: Author[]}) {
                 {author.numberOfBooks}
               </TableCell>
               <TableCell>
+                <EditAuthorDialog author={author} />
                 <Button
                   className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                   onClick={() => {

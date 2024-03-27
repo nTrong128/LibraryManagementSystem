@@ -1,13 +1,15 @@
 "use client";
 import {Book} from "@/types";
-import {FilePenLine} from "lucide-react";
-import {Button} from "@/components/ui/button";
 import EditBookDialog from "@/components/component/dialog/book-edit-dialog";
+import {useRouter} from "next/navigation";
+import {Button} from "@/components/ui/button";
 
 export function BookDetail(params: {book: Book}) {
+  const router = useRouter();
   const book = params.book;
   return (
-    <div className="w-full py-6">
+    <div className="w-full py-6 mx-4">
+      <Button onClick={() => router.back()}>Quay lại</Button>
       <div className="container rounded-lg grid shadow-lg overflow-hidden py-10 max-w-2xl px-4 items-start gap-6 sm:grid-cols-2 sm:max-w-4xl md:gap-10 lg:max-w-5xl lg:gap-12 xl:max-w-6xl">
         <div className=" gap-4">
           <div className="space-y-2">
