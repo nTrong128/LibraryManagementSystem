@@ -27,7 +27,7 @@ import {DeleteCategory} from "@/actions/category";
 
 export function CategoryTable(prop: {categories: Category[]}) {
   const {toast} = useToast();
-  const [selectedReder, setSelectedReder] = useState<Reader>();
+  const [selectedReder, setSelectedReder] = useState<Category>();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -69,7 +69,7 @@ export function CategoryTable(prop: {categories: Category[]}) {
             <AlertDialogTitle>
               Bạn có chắc muốn xóa thể loại sách:{" "}
               <span className="italic text-red-500">
-                {selectedReder?.readerName}
+                {selectedReder?.categoryName}
               </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
@@ -90,7 +90,7 @@ export function CategoryTable(prop: {categories: Category[]}) {
                     description: (
                       <>
                         <span className="font-bold italic">
-                          {selectedReder?.readerName}
+                          {selectedReder?.categoryName}
                         </span>{" "}
                         đã được xóa thành công
                       </>

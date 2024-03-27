@@ -9,6 +9,7 @@ import {getServerSession} from "next-auth";
 
 export default async function AuthorPage() {
   const session = await getServerSession(authOptions);
+
   let authors: Author[] = [];
 
   try {
