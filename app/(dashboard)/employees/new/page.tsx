@@ -59,82 +59,87 @@ export default function NewPublisherPage() {
     }
   }
   return (
-    <main className="m-auto my-10 max-w-3xl space-y-10">
-      <div>
-        <h1 className="text-3xl font-semibold text-center">Thêm nhân viên</h1>
-        <p className="mt-2 text-sm text-gray-500 text-center">
-          Thêm nhân viên mới vào hệ thống.
-        </p>
-      </div>
-      <div className="rounded-lg border p-4">
-        <Form {...form}>
-          <div className="">
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-              <FormField
-                control={control}
-                name="fullName"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Tên nhân viên</FormLabel>
-                    <FormControl>
-                      <Input
-                        required
-                        {...field}
-                        placeholder="Nhập tên nhân viên"
-                        type="text"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="birthDate"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Ngày sinh</FormLabel>
-                    <FormControl>
-                      <div>
-                        <DatePicker
-                          className=" border border-gray-300 rounded-md"
-                          onChange={onChange}
-                          value={value}
-                          locale="vi-VN"
-                          clearIcon={<Eraser className="scale-75" />}
-                          calendarIcon={<Calendar className="scale-75" />}
+    <main className="m-4">
+      <Button className="w-1/6" onClick={() => router.back()}>
+        Quay lại
+      </Button>
+      <div className="m-auto my-10 max-w-3xl space-y-10">
+        <div>
+          <h1 className="text-3xl font-semibold text-center">Thêm nhân viên</h1>
+          <p className="mt-2 text-sm text-gray-500 text-center">
+            Thêm nhân viên mới vào hệ thống.
+          </p>
+        </div>
+        <div className="rounded-lg border p-4">
+          <Form {...form}>
+            <div className="">
+              <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <FormField
+                  control={control}
+                  name="fullName"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Tên nhân viên</FormLabel>
+                      <FormControl>
+                        <Input
+                          required
+                          {...field}
+                          placeholder="Nhập tên nhân viên"
+                          type="text"
                         />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="phoneNumber"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Số điện thoại</FormLabel>
-                    <FormControl>
-                      <Input
-                        required
-                        {...field}
-                        placeholder="Nhập số điện thoại nhân viên"
-                        type="text"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="birthDate"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Ngày sinh</FormLabel>
+                      <FormControl>
+                        <div>
+                          <DatePicker
+                            className=" border border-gray-300 rounded-md"
+                            onChange={onChange}
+                            value={value}
+                            locale="vi-VN"
+                            clearIcon={<Eraser className="scale-75" />}
+                            calendarIcon={<Calendar className="scale-75" />}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="phoneNumber"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Số điện thoại</FormLabel>
+                      <FormControl>
+                        <Input
+                          required
+                          {...field}
+                          placeholder="Nhập số điện thoại nhân viên"
+                          type="text"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <Button type="submit" disabled={isSubmitting}>
-                Thêm
-              </Button>
-            </form>
-          </div>
-        </Form>
+                <Button type="submit" disabled={isSubmitting}>
+                  Thêm
+                </Button>
+              </form>
+            </div>
+          </Form>
+        </div>
       </div>
     </main>
   );

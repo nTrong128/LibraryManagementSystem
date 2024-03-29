@@ -45,46 +45,51 @@ export default function NewCategoryPage() {
     }
   }
   return (
-    <main className="m-auto my-10 max-w-3xl space-y-10">
-      <div>
-        <h1 className="text-3xl font-semibold text-center">
-          Thêm thể loại sách
-        </h1>
-        <p className="mt-2 text-sm text-gray-500 text-center">
-          Thêm thể loại sách mới vào hệ thống.
-        </p>
-      </div>
-      <div className="rounded-lg border p-4">
-        <Form {...form}>
-          <div className="">
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-              <FormField
-                control={control}
-                name="categoryName"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Tên Thể loại</FormLabel>
-                    <FormControl>
-                      <Input
-                        required
-                        {...field}
-                        placeholder="Nhập tên thể loại"
-                        type="text"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                className="w-1/3 block mx-auto"
-                type="submit"
-                disabled={isSubmitting}>
-                Thêm
-              </Button>
-            </form>
-          </div>
-        </Form>
+    <main className="m-4">
+      <Button className="w-1/6" onClick={() => router.back()}>
+        Quay lại
+      </Button>
+      <div className="m-auto my-10 max-w-3xl space-y-10">
+        <div>
+          <h1 className="text-3xl font-semibold text-center">
+            Thêm thể loại sách
+          </h1>
+          <p className="mt-2 text-sm text-gray-500 text-center">
+            Thêm thể loại sách mới vào hệ thống.
+          </p>
+        </div>
+        <div className="rounded-lg border p-4">
+          <Form {...form}>
+            <div className="">
+              <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <FormField
+                  control={control}
+                  name="categoryName"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Tên Thể loại</FormLabel>
+                      <FormControl>
+                        <Input
+                          required
+                          {...field}
+                          placeholder="Nhập tên thể loại"
+                          type="text"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  className="w-1/3 block mx-auto"
+                  type="submit"
+                  disabled={isSubmitting}>
+                  Thêm
+                </Button>
+              </form>
+            </div>
+          </Form>
+        </div>
       </div>
     </main>
   );

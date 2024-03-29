@@ -53,7 +53,7 @@ export default async function Category() {
               <CardTitle>Nhà xuất bản</CardTitle>
             </div>
 
-            <Link href={"/publisher/new"}>
+            <Link href={"/publishers/new"}>
               <Button>Thêm nhà xuất bản</Button>
             </Link>
           </div>

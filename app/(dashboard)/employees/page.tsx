@@ -17,7 +17,7 @@ export default async function EmployeePage() {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees`,
       {
         headers: {
-          Authorization: `Bearer ${session?.user?.accessToken}`, // Update the property name to 'accessToken'
+          Authorization: `Bearer ${session?.user?.accessToken}`,
         },
         method: "GET",
         next: {tags: ["list-employees"]},

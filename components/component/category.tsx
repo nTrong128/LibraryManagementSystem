@@ -24,6 +24,7 @@ import {
 import {deleteReader} from "@/actions/reader";
 import {Trash2} from "lucide-react";
 import {DeleteCategory} from "@/actions/category";
+import EditCategoryDialog from "./dialog/category-edit-dialog";
 
 export function CategoryTable(prop: {categories: Category[]}) {
   const {toast} = useToast();
@@ -49,7 +50,7 @@ export function CategoryTable(prop: {categories: Category[]}) {
               <TableCell>{category.numberOfBooks}</TableCell>
               <TableCell>
                 <div className="flex gap-x-2">
-                  <Button>Sửa</Button>
+                  <EditCategoryDialog category={category} />
                   <Button
                     className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                     onClick={() => {

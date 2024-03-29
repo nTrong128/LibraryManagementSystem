@@ -23,6 +23,7 @@ import {useToast} from "@/components/ui/use-toast";
 import {useState} from "react";
 import {Trash2} from "lucide-react";
 import {deletePublisher} from "@/actions/publisher";
+import EditPublisherDialog from "./dialog/publisher-edit-dialog";
 
 export function PublisherTable(prop: {publishers: Publisher[]}) {
   const {toast} = useToast();
@@ -52,7 +53,7 @@ export function PublisherTable(prop: {publishers: Publisher[]}) {
               <TableCell>{publisher.numberOfBooks}</TableCell>
               <TableCell>
                 <div className="flex gap-x-2">
-                  <Button>Sửa</Button>
+                  <EditPublisherDialog publisher={publisher} />
                   <Button
                     className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                     onClick={() => {

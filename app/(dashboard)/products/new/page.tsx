@@ -79,141 +79,150 @@ export default function NewProductPage() {
     }
   }
   return (
-    <main className="m-auto my-10 max-w-3xl space-y-10">
-      <div>
-        <h1 className="text-3xl font-semibold text-center">Add New Product</h1>
-        <p className="mt-2 text-sm text-gray-500 text-center">
-          Add a new product to your store.
-        </p>
-      </div>
-      <div className="rounded-lg border p-4">
-        <Form {...form}>
-          <div className="">
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-              <FormField
-                control={control}
-                name="name"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Tên sách</FormLabel>
-                    <FormControl>
-                      <Input
-                        required
-                        {...field}
-                        placeholder="Nhập tên sách"
-                        type="text"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="publicationYear"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Năm xuất bản</FormLabel>
-                    <FormControl>
-                      <Input
-                        required
-                        {...field}
-                        placeholder="Nhập năm xuất bản"
-                        type="text"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="categoryId"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Thể loại</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}>
+    <main className="my-4 mx-4">
+      <Button className="w-1/6" onClick={() => router.back()}>
+        Quay lại
+      </Button>
+      <div className="m-auto my-10 max-w-3xl">
+        <div>
+          <h1 className="text-3xl font-semibold text-center">
+            Add New Product
+          </h1>
+          <p className="mt-2 text-sm text-gray-500 text-center">
+            Add a new product to your store.
+          </p>
+        </div>
+        <div className="rounded-lg border p-4">
+          <Form {...form}>
+            <div className="">
+              <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <FormField
+                  control={control}
+                  name="name"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Tên sách</FormLabel>
                       <FormControl>
-                        <SelectTrigger {...field}>
-                          <SelectValue placeholder="Chọn thể loại" />
-                        </SelectTrigger>
+                        <Input
+                          required
+                          {...field}
+                          placeholder="Nhập tên sách"
+                          type="text"
+                        />
                       </FormControl>
-                      <SelectContent>
-                        {category.map((category: Category) => (
-                          <SelectItem
-                            key={category.id}
-                            value={String(category.id)}>
-                            {category.categoryName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="authorId"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Tác giả</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="publicationYear"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Năm xuất bản</FormLabel>
                       <FormControl>
-                        <SelectTrigger {...field}>
-                          <SelectValue placeholder="Chọn tác giả" />
-                        </SelectTrigger>
+                        <Input
+                          required
+                          {...field}
+                          placeholder="Nhập năm xuất bản"
+                          type="text"
+                        />
                       </FormControl>
-                      <SelectContent>
-                        {author.map((author: Author) => (
-                          <SelectItem key={author.id} value={String(author.id)}>
-                            {author.authorName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="publisherId"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Tên nhà xuất bản</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger {...field}>
-                          <SelectValue placeholder="Chọn  nhà xuất bản" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {publisher.map((publisher: Publisher) => (
-                          <SelectItem
-                            key={publisher.id}
-                            value={String(publisher.id)}>
-                            {publisher.publisherName}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={isSubmitting}>
-                Thêm
-              </Button>
-            </form>
-          </div>
-        </Form>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="categoryId"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Thể loại</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger {...field}>
+                            <SelectValue placeholder="Chọn thể loại" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {category.map((category: Category) => (
+                            <SelectItem
+                              key={category.id}
+                              value={String(category.id)}>
+                              {category.categoryName}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="authorId"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Tác giả</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger {...field}>
+                            <SelectValue placeholder="Chọn tác giả" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {author.map((author: Author) => (
+                            <SelectItem
+                              key={author.id}
+                              value={String(author.id)}>
+                              {author.authorName}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={control}
+                  name="publisherId"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel>Tên nhà xuất bản</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger {...field}>
+                            <SelectValue placeholder="Chọn  nhà xuất bản" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {publisher.map((publisher: Publisher) => (
+                            <SelectItem
+                              key={publisher.id}
+                              value={String(publisher.id)}>
+                              {publisher.publisherName}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" disabled={isSubmitting}>
+                  Thêm
+                </Button>
+              </form>
+            </div>
+          </Form>
+        </div>
       </div>
     </main>
   );
