@@ -1,10 +1,10 @@
 "use client";
 import {Reader} from "@/types";
 
-import {ExtendLibraryCard} from "@/components/component/dialog/library-card-extend";
+import {ExtendLibraryCard} from "@/components/dialog/library-card-extend";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
-import {CreateLibraryCardDialog} from "@/components/component/dialog/library-card-create";
+import {CreateLibraryCardDialog} from "@/components/dialog/library-card-create";
 
 export default function LibraryCardInfoDialog(params: {reader: Reader}) {
   const reader = params.reader;

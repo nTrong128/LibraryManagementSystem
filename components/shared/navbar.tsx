@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import {LibraryBig, LogOut, Settings, User} from "lucide-react";
+import {LibraryBig, Link2, LogOut, Settings, User} from "lucide-react";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
@@ -87,10 +87,12 @@ export default function NavigationBar() {
             <DropdownMenuContent>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Button variant={"ghost"}>
-                  <User />
-                  Hồ sơ
-                </Button>
+                <Link href={"/profile"}>
+                  <Button variant={"ghost"}>
+                    <User />
+                    Hồ sơ
+                  </Button>
+                </Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem>

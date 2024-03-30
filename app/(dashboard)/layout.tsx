@@ -7,6 +7,7 @@ import {SessionProvider} from "@/components/provider/next-auth-provider";
 import {getServerSession} from "next-auth";
 import {redirect} from "next/navigation";
 import {authOptions} from "@/auth";
+import {signOut} from "next-auth/react";
 
 const inter = Inter({subsets: ["latin"]});
 export const metadata: Metadata = {
@@ -20,6 +21,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
+  if (session?.user.loginTime + 2 * 60 * 60 * 1000 < new Date().getTime()) {
+    signOut();
+    redirect("/login");
+  }
 
   if (!session?.user) {
     // return <div>YOU ARE NOT LOGIN</div>;

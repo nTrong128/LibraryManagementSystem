@@ -10,6 +10,7 @@ declare module "next-auth" {
       username: string;
       role: string;
       enabled: boolean;
+      loginTime: number;
       accessToken: string;
     };
   }

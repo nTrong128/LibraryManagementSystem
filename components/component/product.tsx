@@ -24,7 +24,7 @@ import {
 import {deleteProduct} from "@/actions/product";
 import {useToast} from "@/components/ui/use-toast";
 import {useRouter} from "next/navigation";
-import EditBookDialog from "@/components/component/dialog/book-edit-dialog";
+import EditBookDialog from "@/components/dialog/book-edit-dialog";
 
 export function ProductTable(prop: {book: Book[]}) {
   const router = useRouter();

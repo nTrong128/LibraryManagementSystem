@@ -23,6 +23,7 @@ import {useToast} from "@/components/ui/use-toast";
 import {useState} from "react";
 import {Trash2} from "lucide-react";
 import {deleteEmployee} from "@/actions/employee";
+import CreateAccountDialog from "@/components/dialog/account-create";
 
 export function Staff(prop: {employees: Employee[]}) {
   const {toast} = useToast();
@@ -37,6 +38,7 @@ export function Staff(prop: {employees: Employee[]}) {
             <TableHead>Họ và Tên</TableHead>
             <TableHead>Ngày Sinh</TableHead>
             <TableHead>Số điện thoại</TableHead>
+            <TableHead>Tài khoản</TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
@@ -50,8 +52,15 @@ export function Staff(prop: {employees: Employee[]}) {
               </TableCell>
               <TableCell>{employee.phoneNumber}</TableCell>
               <TableCell>
+                {employee.username === null ? (
+                  <CreateAccountDialog employee={employee} />
+                ) : (
+                  <p>{employee.username}</p>
+                )}
+              </TableCell>
+              <TableCell>
                 <div className="flex gap-x-2">
-                  <Button>Sửa</Button>
+                  {/* <Button>Sửa</Button> */}
                   <Button
                     className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                     onClick={() => {

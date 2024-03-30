@@ -23,7 +23,7 @@ import {useToast} from "@/components/ui/use-toast";
 import {useState} from "react";
 import {Trash2} from "lucide-react";
 import {deletePublisher} from "@/actions/publisher";
-import EditPublisherDialog from "./dialog/publisher-edit-dialog";
+import EditPublisherDialog from "../dialog/publisher-edit-dialog";
 
 export function PublisherTable(prop: {publishers: Publisher[]}) {
   const {toast} = useToast();

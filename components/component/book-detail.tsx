@@ -1,6 +1,6 @@
 "use client";
 import {Book} from "@/types";
-import EditBookDialog from "@/components/component/dialog/book-edit-dialog";
+import EditBookDialog from "@/components/dialog/book-edit-dialog";
 import {useRouter} from "next/navigation";
 import {Button} from "@/components/ui/button";
 

@@ -24,7 +24,7 @@ import {
 import {deleteReader} from "@/actions/reader";
 import {Trash2} from "lucide-react";
 import {DeleteCategory} from "@/actions/category";
-import EditCategoryDialog from "./dialog/category-edit-dialog";
+import EditCategoryDialog from "../dialog/category-edit-dialog";
 
 export function CategoryTable(prop: {categories: Category[]}) {
   const {toast} = useToast();

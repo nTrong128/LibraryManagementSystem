@@ -9,7 +9,13 @@ import {authOptions} from "@/auth";
 
 export default async function EmployeePage() {
   const session = await getServerSession(authOptions);
-
+  if (session.user.role === "user") {
+    return (
+      <div className="text-center my-10 text-5xl font-semibold text-red-600">
+        BẠN KHÔNG CÓ QUYỀN TRUY CẬP VÀO TRANG NÀY
+      </div>
+    );
+  }
   let employee: Employee[] = [];
 
   try {

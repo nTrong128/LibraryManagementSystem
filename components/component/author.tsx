@@ -24,7 +24,7 @@ import {deleteAuthor} from "@/actions/author";
 import {Trash2} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
-import EditAuthorDialog from "./dialog/author-edit-dialog";
+import EditAuthorDialog from "../dialog/author-edit-dialog";
 
 export function AuthorTable(prop: {authors: Author[]}) {
   const {toast} = useToast();

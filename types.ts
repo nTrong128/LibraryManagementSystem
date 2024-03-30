@@ -58,6 +58,7 @@ type Employee = {
   fullName: string;
   birthDate: Date;
   phoneNumber: string;
+  username: string;
 };
 
 export type {Employee};
@@ -70,3 +71,13 @@ type CheckOut = {
 };
 
 export type {CheckOut};
+
+type Account = {
+  id: number;
+  username: string;
+  role: string;
+  enabled: boolean;
+  employee: Employee;
+};
+
+export type {Account};

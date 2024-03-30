@@ -45,6 +45,7 @@ export const authOptions = {
             username: accountInfo.username,
             role: accountInfo.role,
             enabled: accountInfo.enabled,
+            loginTime: new Date().getTime(),
             accessToken: resData.data.token,
           };
         }
