@@ -2,11 +2,33 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "@/auth";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {ProfileContent} from "@/components/component/profile";
+import {Account, Employee} from "@/types";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
-  const user = session?.user;
-  console.log(user);
+  let user: Employee;
+  const id = session?.user.id;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user?.accessToken}`,
+        },
+        method: "GET",
+        next: {tags: ["list-employees"]},
+        cache: "no-cache",
+      }
+    );
+    const data = await res.json();
+
+    user = data.data;
+    if (!user) return <div>Loading...</div>;
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    return <div>Loading...</div>;
+  }
 
   return (
     <main>
@@ -17,8 +39,6 @@ export default async function ProfilePage() {
           </div>
         </CardHeader>
       </Card>
-      <p>{JSON.stringify(user)}</p>
-      <p>{new Date().getTime()}</p>
       <ProfileContent user={user} />
     </main>
   );
