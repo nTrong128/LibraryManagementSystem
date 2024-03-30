@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import {Reader} from "@/types";
 import {Button} from "@/components/ui/button";
-import Link from "next/link";
 import {useState} from "react";
 import {useToast} from "@/components/ui/use-toast";
 import {
@@ -23,12 +22,14 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import {deleteReader} from "@/actions/reader";
-import {Trash2} from "lucide-react";
+import {Info, Trash2} from "lucide-react";
+import {useRouter} from "next/navigation";
 
 export function BookaholicTable(prop: {readers: Reader[]}) {
   const {toast} = useToast();
   const [selectedReder, setSelectedReder] = useState<Reader>();
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   return (
     <>
       <Table className="max-w-6xl mx-auto mt-10 border">
@@ -37,7 +38,7 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
             <TableHead className="w-[120px]">Mã đọc giả</TableHead>
             <TableHead>Tên đọc giả</TableHead>
             <TableHead>Địa chỉ</TableHead>
-            <TableHead>Thẻ mượn</TableHead>
+            <TableHead>Thẻ thư viện</TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
@@ -47,17 +48,14 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
               <TableCell>{reader.id}</TableCell>
               <TableCell className="font-medium">{reader.readerName}</TableCell>
               <TableCell>{reader.address}</TableCell>
-              {reader.libraryCard?.cardNumber ? (
-                <TableCell className="ps-14">
-                  {reader.libraryCard?.cardNumber}
-                </TableCell>
-              ) : (
-                <TableCell>
-                  <Link href={`/bookaholic/${reader.id}/newcard`}>
-                    <Button variant={"secondary"}>Thêm thẻ</Button>
-                  </Link>
-                </TableCell>
-              )}
+              <TableCell>
+                <Button
+                  className="text-blue-700 bg-blue-100 hover:text-blue-800 hover:bg-blue-200"
+                  onClick={() => router.push(`/bookaholics/${reader.id}`)}>
+                  <Info className="me-2" />
+                  Chi tiết
+                </Button>
+              </TableCell>
               <TableCell>
                 <Button
                   className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
