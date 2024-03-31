@@ -24,8 +24,9 @@ export default async function ProductPage() {
     const data = await res.json();
     book = data.data;
 
-    if (!data) return <div>Loading...</div>;
+    if (!book) return <div>Loading...</div>;
   } catch (error) {
+    return <div>SOMETHING WENT WRONG...</div>;
     console.error("Error fetching books:", error);
   }
 

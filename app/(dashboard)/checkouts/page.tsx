@@ -40,10 +40,10 @@ export default async function CheckOut() {
     const data = await res.json();
     checkouts = data.data;
 
-    if (!data) return <div>Loading...</div>;
+    if (!checkouts) return <div>Loading...</div>;
   } catch (error) {
     console.error("Error fetching checkouts:", error);
-    return <div>Failed to load</div>;
+    return <div>SOMETHING WENT WRONG</div>;
   }
   return (
     <main>

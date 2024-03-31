@@ -36,7 +36,7 @@ export default async function EmployeePage() {
     if (!employee) return <div>Loading...</div>;
   } catch (error) {
     console.error("Error fetching books:", error);
-    return <div>Loading...</div>;
+    return <div>SOMETHING WENT WRONG...</div>;
   }
   return (
     <main>

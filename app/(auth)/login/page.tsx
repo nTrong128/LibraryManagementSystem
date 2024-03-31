@@ -62,19 +62,6 @@ export default function LoginPage() {
           <FormError message={error} />
         </form>
       </div>
-
-      {/* QUÊN MẬT KHẨU VÀ TẠO TÀI KHOẢN  */}
-      <div className="space-y-2 text-center">
-        <Link className="text-sm underline" href="#">
-          Quên mật khẩu?
-        </Link>
-        <p className="text-sm">
-          Chưa có tài khoản?
-          <Link className="underline" href={"/register"}>
-            Đăng ký
-          </Link>
-        </p>
-      </div>
     </main>
   );
 }

@@ -37,7 +37,7 @@ export default async function Category() {
     const data = await res.json();
     publisher = data.data;
 
-    if (!data) return <div>Something went wrong...</div>;
+    if (!publisher) return <div>Something went wrong...</div>;
   } catch (error) {
     console.error("Error fetching books:", error);
     <div>Something went wrong...</div>;

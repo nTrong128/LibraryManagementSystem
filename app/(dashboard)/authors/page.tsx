@@ -24,8 +24,9 @@ export default async function AuthorPage() {
 
     const data = await res.json();
     authors = data.data;
-    if (!data) return <div>Loading...</div>;
+    if (!authors) return <div>Loading...</div>;
   } catch (error) {
+    return <div>SOMETHING WENT WRONG...</div>;
     console.error("Error fetching authors:", error);
   }
   return (
