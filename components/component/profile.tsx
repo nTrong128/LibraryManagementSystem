@@ -27,12 +27,9 @@ export function ProfileContent(params: {user: Employee}) {
           </Label>
           <Label className="text-lg">Số điện thoại: {user.phoneNumber}</Label>
           <Label className="text-lg">
-            Tên tài khoản đăng nhập: {user.username}
+            Tên tài khoản đăng nhập: {user.account.username}
           </Label>
           <EditProfileDialog employee={user} />
-          <Button className="mx-auto bg-blue-600 hover:bg-blue-700">
-            Đổi mật khẩu
-          </Button>
         </div>
       </div>
     </div>

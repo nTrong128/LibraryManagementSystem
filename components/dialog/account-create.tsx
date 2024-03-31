@@ -17,7 +17,7 @@ export default function CreateAccountDialog(params: {employee: Employee}) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200">
+        <Button className="w-2/3 text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200">
           <FilePenLine /> Tạo tài khoản
         </Button>
       </DialogTrigger>

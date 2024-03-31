@@ -24,6 +24,7 @@ import {useState} from "react";
 import {Trash2} from "lucide-react";
 import {deleteEmployee} from "@/actions/employee";
 import CreateAccountDialog from "@/components/dialog/account-create";
+import {AccountStatus} from "../dialog/account-status";
 
 export function Staff(prop: {employees: Employee[]}) {
   const {toast} = useToast();
@@ -51,13 +52,26 @@ export function Staff(prop: {employees: Employee[]}) {
                 {new Date(employee.birthDate).toLocaleDateString("vi-VN")}
               </TableCell>
               <TableCell>{employee.phoneNumber}</TableCell>
-              <TableCell>
-                {employee.username === null ? (
+              {employee.account === null ? (
+                <TableCell>
                   <CreateAccountDialog employee={employee} />
-                ) : (
-                  <p>{employee.username}</p>
-                )}
-              </TableCell>
+                </TableCell>
+              ) : (
+                <TableCell className="flex flex-row items-center justify-between gap-2">
+                  <div>
+                    <p>Tên tài khoản: {employee.account.username}</p>
+                    <p>Quyền: {employee.account.role.toUpperCase()}</p>
+                    {employee.account.enabled ? (
+                      <p className="text-green-500">Đang hoạt động </p>
+                    ) : (
+                      <p className="text-red-500">Tạm khóa</p>
+                    )}
+                  </div>
+                  <div>
+                    <AccountStatus employee={employee} />
+                  </div>
+                </TableCell>
+              )}
               <TableCell>
                 <div className="flex gap-x-2">
                   {/* <Button>Sửa</Button> */}

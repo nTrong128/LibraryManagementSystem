@@ -37,7 +37,6 @@ export function EditProfileForm(prop: {
       fullName: prop.employee.fullName,
       birthDate: prop.employee.birthDate,
       phoneNumber: prop.employee.phoneNumber,
-      username: prop.employee.username,
     },
   });
   const {
@@ -46,7 +45,6 @@ export function EditProfileForm(prop: {
     formState: {isSubmitting},
   } = form;
   async function onSubmit(values: any) {
-    values.username = prop.employee.username;
     try {
       console.log("values", values);
       const response = await axios.put(

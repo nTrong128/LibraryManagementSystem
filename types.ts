@@ -58,7 +58,7 @@ type Employee = {
   fullName: string;
   birthDate: Date;
   phoneNumber: string;
-  username: string;
+  account: Account;
 };
 
 export type {Employee};
