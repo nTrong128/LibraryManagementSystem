@@ -54,7 +54,11 @@ export default async function EmployeePage() {
           </div>
         </CardHeader>
       </Card>
-      <Staff employees={employee} />
+      {employee.length === 0 ? (
+        <div>Không có nhân viên nào</div>
+      ) : (
+        <Staff employees={employee} />
+      )}
     </main>
   );
 }

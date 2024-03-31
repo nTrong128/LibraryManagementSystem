@@ -52,7 +52,12 @@ export default async function Bookaholic() {
           </div>
         </CardHeader>
       </Card>
-      <BookaholicTable readers={readers} />
+
+      {(readers.length === 0 && (
+        <div className="pt-10 text-5xl mx-auto text-center">
+          Không có độc giả nào
+        </div>
+      )) || <BookaholicTable readers={readers} />}
     </main>
   );
 }

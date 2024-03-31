@@ -44,7 +44,11 @@ export default async function ProductPage() {
           </div>
         </CardHeader>
       </Card>
-      <ProductTable book={book} />
+      {book.length === 0 ? (
+        <div>Không có sách nào</div>
+      ) : (
+        <ProductTable book={book} />
+      )}
     </main>
   );
 }

@@ -48,9 +48,14 @@ export default async function Category() {
           </div>
         </CardHeader>
       </Card>
-      <div className=" mx-auto my-10 border max-w-3xl">
-        <CategoryTable categories={categories} />
-      </div>
+
+      {categories.length === 0 ? (
+        <div>Không có thể loại nào</div>
+      ) : (
+        <div className=" my-10 border mx-10">
+          <CategoryTable categories={categories} />
+        </div>
+      )}
     </main>
   );
 }

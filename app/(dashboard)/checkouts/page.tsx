@@ -59,9 +59,13 @@ export default async function CheckOut() {
           </div>
         </CardHeader>
       </Card>
-      <div className=" m-12 border max-w-6xl mx-auto">
-        <CheckOutTable checkouts={checkouts} />
-      </div>
+      {checkouts.length === 0 ? (
+        <div>Không có sách nào được mượn</div>
+      ) : (
+        <div className=" m-12 border max-w-6xl mx-auto">
+          <CheckOutTable checkouts={checkouts} />
+        </div>
+      )}
     </main>
   );
 }
