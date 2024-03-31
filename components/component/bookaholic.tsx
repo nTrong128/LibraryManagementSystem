@@ -24,14 +24,31 @@ import {
 import {deleteReader} from "@/actions/reader";
 import {Info, Trash2} from "lucide-react";
 import {useRouter} from "next/navigation";
+import {Input} from "../ui/input";
 
 export function BookaholicTable(prop: {readers: Reader[]}) {
   const {toast} = useToast();
   const [selectedReder, setSelectedReder] = useState<Reader>();
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
+  const [search, setSearch] = useState("");
+  const filteredReaders = prop.readers.filter((reader) => {
+    return (
+      reader.readerName.toLowerCase().includes(search.toLowerCase()) ||
+      reader.id.toString().includes(search)
+    );
+  });
   return (
     <>
+      <Input
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        value={search}
+        className="mx-auto mt-10 w-2/3 rounded-md"
+        placeholder="Tìm kiếm độc giả"
+      />
       <Table className="max-w-6xl mx-auto mt-10 border">
         <TableHeader>
           <TableRow>
@@ -43,7 +60,7 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.readers.map((reader: Reader) => (
+          {filteredReaders.map((reader: Reader) => (
             <TableRow key={reader.id}>
               <TableCell>{reader.id}</TableCell>
               <TableCell className="font-medium">{reader.readerName}</TableCell>

@@ -10,13 +10,31 @@ import {
 import {CheckOut} from "@/types";
 import {Button} from "../ui/button";
 import {useRouter} from "next/navigation";
+import {Input} from "../ui/input";
+import {useState} from "react";
 
 export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
   const router = useRouter();
   const checkouts = prop.checkouts;
+  const [search, setSearch] = useState("");
+  const filteredCheckouts = checkouts.filter((checkout) => {
+    return (
+      checkout.id.toString().includes(search) ||
+      checkout.libraryCard.cardNumber.toString().includes(search) ||
+      checkout.employee.fullName.toLowerCase().includes(search.toLowerCase())
+    );
+  });
   if (!checkouts) return <div>no data...</div>;
   return (
     <>
+      <Input
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        value={search}
+        className="mx-auto mt-10 w-2/3 rounded-md"
+        placeholder="Tìm kiếm mượn trả theo mã thẻ thư viện"
+      />
       <Table>
         <TableHeader>
           <TableRow>
@@ -27,7 +45,7 @@ export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {checkouts.map((checkout: CheckOut) => (
+          {filteredCheckouts.map((checkout: CheckOut) => (
             <TableRow key={checkout.id}>
               <TableCell>{checkout.id}</TableCell>
               <TableCell>{checkout.libraryCard.cardNumber}</TableCell>

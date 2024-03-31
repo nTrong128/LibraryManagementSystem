@@ -59,7 +59,7 @@ export default async function CheckOut() {
           </div>
         </CardHeader>
       </Card>
-      <div className="flex items-center justify-center m-12 border">
+      <div className=" m-12 border max-w-6xl mx-auto">
         <CheckOutTable checkouts={checkouts} />
       </div>
     </main>

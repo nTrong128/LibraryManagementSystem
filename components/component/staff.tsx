@@ -25,13 +25,29 @@ import {Trash2} from "lucide-react";
 import {deleteEmployee} from "@/actions/employee";
 import CreateAccountDialog from "@/components/dialog/account-create";
 import {AccountStatus} from "../dialog/account-status";
+import {Input} from "../ui/input";
 
 export function Staff(prop: {employees: Employee[]}) {
   const {toast} = useToast();
   const [selected, setselected] = useState<Employee>();
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const filteredEmployees = prop.employees.filter((employee) => {
+    return (
+      employee.fullName.toLowerCase().includes(search.toLowerCase()) ||
+      employee.id.toString().includes(search)
+    );
+  });
   return (
     <>
+      <Input
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        value={search}
+        className="mx-auto mt-10 w-2/3 rounded-md"
+        placeholder="Tìm kiếm nhân viên"
+      />
       <Table className="border mt-10 mx-auto max-w-5xl">
         <TableHeader>
           <TableRow>
@@ -44,7 +60,7 @@ export function Staff(prop: {employees: Employee[]}) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.employees.map((employee: Employee) => (
+          {filteredEmployees.map((employee: Employee) => (
             <TableRow key={employee.id}>
               <TableCell>{employee.id}</TableCell>
               <TableCell>{employee.fullName}</TableCell>

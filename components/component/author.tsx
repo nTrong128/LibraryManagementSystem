@@ -25,13 +25,29 @@ import {Trash2} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import EditAuthorDialog from "../dialog/author-edit-dialog";
+import {Input} from "../ui/input";
 
 export function AuthorTable(prop: {authors: Author[]}) {
   const {toast} = useToast();
   const [selectedAuthor, setSelectedAuthor] = useState<Author>();
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const filteredAuthors = prop.authors.filter((author) => {
+    return (
+      author.authorName.toLowerCase().includes(search.toLowerCase()) ||
+      author.id.toString().includes(search)
+    );
+  });
   return (
     <>
+      <Input
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        value={search}
+        className="mx-auto mt-10 w-2/3 rounded-md"
+        placeholder="Tìm kiếm tác giả"
+      />
       <Table className="max-w-6xl mt-10 mx-auto">
         <TableHeader>
           <TableRow>
@@ -44,7 +60,7 @@ export function AuthorTable(prop: {authors: Author[]}) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.authors.map((author: Author) => (
+          {filteredAuthors.map((author: Author) => (
             <TableRow key={author.id}>
               <TableCell>{author.id}</TableCell>
               <TableCell>{author.authorName}</TableCell>

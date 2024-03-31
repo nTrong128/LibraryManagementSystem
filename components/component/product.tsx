@@ -25,6 +25,7 @@ import {deleteProduct} from "@/actions/product";
 import {useToast} from "@/components/ui/use-toast";
 import {useRouter} from "next/navigation";
 import EditBookDialog from "@/components/dialog/book-edit-dialog";
+import {Input} from "../ui/input";
 
 export function ProductTable(prop: {book: Book[]}) {
   const router = useRouter();
@@ -32,8 +33,23 @@ export function ProductTable(prop: {book: Book[]}) {
   const [selectedBook, setSelectedBook] = useState<Book>();
   const [isOpen, setIsOpen] = useState(false);
 
+  const [search, setSearch] = useState("");
+  const filteredBooks = prop.book.filter((book) => {
+    return (
+      book.bookName.toLowerCase().includes(search.toLowerCase()) ||
+      book.id.toString().includes(search)
+    );
+  });
   return (
     <>
+      <Input
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        value={search}
+        className="mx-auto mt-10 w-2/3 rounded-md"
+        placeholder="Tìm kiếm sách"
+      />
       <Table className="mx-auto my-10 border max-w-6xl">
         <TableHeader>
           <TableRow>
@@ -47,7 +63,7 @@ export function ProductTable(prop: {book: Book[]}) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.book.map((book: Book) => (
+          {filteredBooks.map((book: Book) => (
             <TableRow key={book.id}>
               <TableCell className="font-medium">{book.id}</TableCell>
               <TableCell>{book.bookName}</TableCell>

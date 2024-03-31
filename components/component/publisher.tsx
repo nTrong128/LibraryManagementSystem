@@ -24,13 +24,29 @@ import {useState} from "react";
 import {Trash2} from "lucide-react";
 import {deletePublisher} from "@/actions/publisher";
 import EditPublisherDialog from "../dialog/publisher-edit-dialog";
+import {Input} from "../ui/input";
 
 export function PublisherTable(prop: {publishers: Publisher[]}) {
   const {toast} = useToast();
   const [selected, setselectedPublisher] = useState<Publisher>();
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const filteredPublishers = prop.publishers.filter((publisher) => {
+    return (
+      publisher.publisherName.toLowerCase().includes(search.toLowerCase()) ||
+      publisher.id.toString().includes(search)
+    );
+  });
   return (
     <>
+      <Input
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        value={search}
+        className="mx-auto mt-10 w-2/3 rounded-md"
+        placeholder="Tìm kiếm nhà xuất bản"
+      />
       <Table>
         <TableHeader>
           <TableRow>
@@ -43,7 +59,7 @@ export function PublisherTable(prop: {publishers: Publisher[]}) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.publishers.map((publisher: Publisher) => (
+          {filteredPublishers.map((publisher: Publisher) => (
             <TableRow key={publisher.id}>
               <TableCell>{publisher.id}</TableCell>
               <TableCell>{publisher.publisherName}</TableCell>

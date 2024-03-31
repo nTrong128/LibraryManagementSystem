@@ -25,14 +25,30 @@ import {deleteReader} from "@/actions/reader";
 import {Trash2} from "lucide-react";
 import {DeleteCategory} from "@/actions/category";
 import EditCategoryDialog from "../dialog/category-edit-dialog";
+import {Input} from "../ui/input";
 
 export function CategoryTable(prop: {categories: Category[]}) {
   const {toast} = useToast();
   const [selectedReder, setSelectedReder] = useState<Category>();
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const filteredCategories = prop.categories.filter((category) => {
+    return (
+      category.categoryName.toLowerCase().includes(search.toLowerCase()) ||
+      category.id.toString().includes(search)
+    );
+  });
 
   return (
     <>
+      <Input
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+        value={search}
+        className="mx-auto mt-10 w-2/3 rounded-md"
+        placeholder="Tìm kiếm thể loại"
+      />
       <Table>
         <TableHeader>
           <TableRow>
@@ -43,7 +59,7 @@ export function CategoryTable(prop: {categories: Category[]}) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prop.categories.map((category: Category) => (
+          {filteredCategories.map((category: Category) => (
             <TableRow key={category.id}>
               <TableCell>{category.id}</TableCell>
               <TableCell>{category.categoryName}</TableCell>
