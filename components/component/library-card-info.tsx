@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import {CreateLibraryCardDialog} from "@/components/dialog/library-card-create";
 
-export default function LibraryCardInfoDialog(params: {reader: Reader}) {
+export default function LibraryCardInfo(params: {reader: Reader}) {
   const reader = params.reader;
   const router = useRouter();
   return (

@@ -18,6 +18,7 @@ import {useState} from "react";
 import {Calendar, Eraser} from "lucide-react";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
+import {formatDate} from "@/lib/tools";
 
 export function EditProfileForm(prop: {
   employee: Employee;
@@ -45,6 +46,9 @@ export function EditProfileForm(prop: {
     formState: {isSubmitting},
   } = form;
   async function onSubmit(values: any) {
+    if (value) {
+      values.birthDate = formatDate(value.toLocaleString("vi-VN"));
+    }
     try {
       console.log("values", values);
       const response = await axios.put(
