@@ -4,13 +4,14 @@ import {DashboardContent} from "@/components/component/dashboard";
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
-  let books: any[] = [];
-  let authors: any[] = [];
-  let publishers: any[] = [];
-  let categories: any[] = [];
-  let readers: any[] = [];
-  let employees: any[] = [];
-  let checkouts: any[] = [];
+  let books,
+    authors,
+    publishers,
+    categories,
+    readers,
+    employees,
+    checkouts: any[] = [];
+
   try {
     const urls = [
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/books/totals`,
