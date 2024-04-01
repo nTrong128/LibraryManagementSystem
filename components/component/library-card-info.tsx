@@ -1,14 +1,28 @@
 "use client";
 import {Reader} from "@/types";
-
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialogHeader,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
 import {ExtendLibraryCard} from "@/components/dialog/library-card-extend";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import {CreateLibraryCardDialog} from "@/components/dialog/library-card-create";
+import {useToast} from "@/components/ui/use-toast";
+import {useState} from "react";
+import {deleteLibraryCard} from "@/actions/library-card";
 
 export default function LibraryCardInfo(params: {reader: Reader}) {
   const reader = params.reader;
   const router = useRouter();
+  const {toast} = useToast();
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <main className="m-4">
       <Button className="w-1/6" onClick={() => router.back()}>
@@ -54,7 +68,17 @@ export default function LibraryCardInfo(params: {reader: Reader}) {
                 Thẻ đã quá hạn
               </p>
             )}
-            <ExtendLibraryCard reader={reader} />
+            <div className="flex gap-x-2">
+              <Button
+                variant={"destructive"}
+                className="w-1/2"
+                onClick={() => {
+                  setIsOpen(true);
+                }}>
+                Vô hiệu hóa thẻ
+              </Button>
+              <ExtendLibraryCard reader={reader} />
+            </div>
           </div>
         )) || (
           <div className="flex flex-col gap-y-2">
@@ -65,6 +89,54 @@ export default function LibraryCardInfo(params: {reader: Reader}) {
           </div>
         )}
       </div>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Bạn có chắc muốn vô hiệu hóa thẻ:{"  "}
+              <span className="italic text-red-500">
+                {reader?.libraryCard?.cardNumber} của đọc giả{" "}
+                {reader.readerName}
+              </span>
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Người dùng này sẽ tạm thời không thể mượn sách
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogAction
+              className="hover:bg-red-600"
+              onClick={async () => {
+                setIsOpen(false);
+                const res = await deleteLibraryCard(reader?.id || 0);
+                if (res.statusCode === 200) {
+                  toast({
+                    title: "Xóa thẻ thành công",
+                    description: (
+                      <>
+                        <span className="font-bold italic">
+                          Thẻ của {reader?.readerName}
+                        </span>{" "}
+                        đã được vô hiệu hóa thành công
+                      </>
+                    ),
+                    duration: 3000,
+                  });
+                } else {
+                  toast({
+                    title: "Xóa thẻ thất bại",
+                    description:
+                      "Có lỗi xảy ra khi xóa thẻ, có thể thẻ này đang sử dụng",
+                    duration: 3000,
+                  });
+                }
+              }}>
+              Tiếp tục
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </main>
   );
 }

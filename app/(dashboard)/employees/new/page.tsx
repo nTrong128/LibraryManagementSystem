@@ -22,6 +22,9 @@ import {Calendar, Eraser} from "lucide-react";
 import {formatDate} from "@/lib/tools";
 import {useSession} from "next-auth/react";
 import action from "@/actions/action";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {employeeSchema} from "@/schema/schema";
 
 export default function NewPublisherPage() {
   const session = useSession();
@@ -33,7 +36,9 @@ export default function NewPublisherPage() {
   const [value, onChange] = useState<Value>(new Date());
   const router = useRouter();
 
-  const form = useForm();
+  const form = useForm<z.infer<typeof employeeSchema>>({
+    resolver: zodResolver(employeeSchema),
+  });
   const {
     handleSubmit,
     control,
@@ -82,7 +87,6 @@ export default function NewPublisherPage() {
                       <FormLabel>Tên nhân viên</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập tên nhân viên"
                           type="text"
@@ -101,6 +105,7 @@ export default function NewPublisherPage() {
                       <FormControl>
                         <div>
                           <DatePicker
+                            {...field}
                             className=" border border-gray-300 rounded-md"
                             onChange={onChange}
                             value={value}
@@ -122,7 +127,6 @@ export default function NewPublisherPage() {
                       <FormLabel>Số điện thoại</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập số điện thoại nhân viên"
                           type="text"

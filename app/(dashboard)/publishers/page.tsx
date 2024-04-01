@@ -1,21 +1,12 @@
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {PersonStanding} from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import useSWR from "swr";
+
 import {Publisher} from "@/types";
 import Link from "next/link";
 import {PublisherTable} from "@/components/component/publisher";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/auth";
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default async function Category() {
   const session = await getServerSession(authOptions);

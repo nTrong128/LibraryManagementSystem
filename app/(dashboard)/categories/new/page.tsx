@@ -15,13 +15,18 @@ import {useRouter} from "next/navigation";
 import axios from "axios";
 import {useSession} from "next-auth/react";
 import action from "@/actions/action";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {categorySchema} from "@/schema/schema";
 
 export default function NewCategoryPage() {
   const session = useSession();
   const accessToken = session?.data?.user.accessToken;
   const router = useRouter();
 
-  const form = useForm();
+  const form = useForm<z.infer<typeof categorySchema>>({
+    resolver: zodResolver(categorySchema),
+  });
   const {
     handleSubmit,
     control,
@@ -70,7 +75,6 @@ export default function NewCategoryPage() {
                       <FormLabel>Tên Thể loại</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập tên thể loại"
                           type="text"

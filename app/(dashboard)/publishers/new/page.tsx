@@ -16,13 +16,18 @@ import {useRouter} from "next/navigation";
 import axios from "axios";
 import {useSession} from "next-auth/react";
 import action from "@/actions/action";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {publisherSchema} from "@/schema/schema";
 
 export default function NewPublisherPage() {
   const session = useSession();
   const accessToken = session?.data?.user.accessToken;
   const router = useRouter();
 
-  const form = useForm();
+  const form = useForm<z.infer<typeof publisherSchema>>({
+    resolver: zodResolver(publisherSchema),
+  });
   const {
     handleSubmit,
     control,
@@ -70,7 +75,6 @@ export default function NewPublisherPage() {
                       <FormLabel>Tên nhà xuất bản</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập tên nhà xuất bản"
                           type="text"
@@ -88,7 +92,6 @@ export default function NewPublisherPage() {
                       <FormLabel>Địa chỉ</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập địa chỉ nhà xuất bản"
                           type="text"
@@ -106,7 +109,6 @@ export default function NewPublisherPage() {
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập địa chỉ email nhà xuất bản"
                           type="text"
@@ -124,7 +126,6 @@ export default function NewPublisherPage() {
                       <FormLabel>Thông tin đại diện</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập thông tin đại diện nhà xuất bản"
                           type="text"

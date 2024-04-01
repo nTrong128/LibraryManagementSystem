@@ -71,7 +71,6 @@ export function CreateLibraryCardForm(prop: {
                   placeholder="Nhập số tháng gia hạn"
                   min={1}
                   step={1}
-                  defaultValue={1}
                   max={24}
                 />
               </FormControl>

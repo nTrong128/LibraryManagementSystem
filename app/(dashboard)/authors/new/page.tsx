@@ -15,13 +15,18 @@ import {useRouter} from "next/navigation";
 import axios from "axios";
 import action from "@/actions/action";
 import {useSession} from "next-auth/react";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {authorSchema} from "@/schema/schema";
 
 export default function NewProductPage() {
   const session = useSession();
   const accessToken = session?.data?.user.accessToken;
   const router = useRouter();
 
-  const form = useForm();
+  const form = useForm<z.infer<typeof authorSchema>>({
+    resolver: zodResolver(authorSchema),
+  });
   const {
     handleSubmit,
     control,
@@ -69,7 +74,6 @@ export default function NewProductPage() {
                       <FormLabel>Tên tác giả</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập tên tác giả"
                           type="text"
@@ -87,7 +91,6 @@ export default function NewProductPage() {
                       <FormLabel>Website</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập địa chỉ website"
                           type="text"
@@ -105,7 +108,6 @@ export default function NewProductPage() {
                       <FormLabel>Mô tả</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập mô tả"
                           type="text"

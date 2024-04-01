@@ -53,7 +53,7 @@ export default async function Category() {
       {categories.length === 0 ? (
         <div>Không có thể loại nào</div>
       ) : (
-        <div className=" my-10 border mx-10">
+        <div className="max-w-5xl mx-auto my-10 border">
           <CategoryTable categories={categories} />
         </div>
       )}

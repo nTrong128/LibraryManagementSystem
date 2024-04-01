@@ -20,7 +20,7 @@ export function ExtendLibraryCard(params: {reader: Reader}) {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200">
+          <Button className=" w-full text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200">
             Gia hạn thẻ
           </Button>
         </DialogTrigger>

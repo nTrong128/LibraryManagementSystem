@@ -60,7 +60,7 @@ export default function NavigationBar() {
           <Button
             asChild
             variant={pathname === "/bookaholics" ? "default" : "outline"}>
-            <Link href="/bookaholics">Đọc giả</Link>
+            <Link href="/bookaholics">Độc giả</Link>
           </Button>
 
           <Button

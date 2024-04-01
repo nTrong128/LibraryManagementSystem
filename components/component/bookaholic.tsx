@@ -52,9 +52,10 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
       <Table className="max-w-6xl mx-auto mt-10 border">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[120px]">Mã đọc giả</TableHead>
-            <TableHead>Tên đọc giả</TableHead>
+            <TableHead className="w-[120px]">Mã độc giả</TableHead>
+            <TableHead>Tên độc giả</TableHead>
             <TableHead>Địa chỉ</TableHead>
+            <TableHead>Mã thẻ</TableHead>
             <TableHead>Thẻ thư viện</TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
@@ -65,6 +66,21 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
               <TableCell>{reader.id}</TableCell>
               <TableCell className="font-medium">{reader.readerName}</TableCell>
               <TableCell>{reader.address}</TableCell>
+              <TableCell>
+                {reader.libraryCard ? (
+                  <>
+                    {(reader.libraryCard.deleted === true && (
+                      <span className="text-red-500">Thẻ bị tạm khóa</span>
+                    )) || (
+                      <span className="text-green-500">
+                        Mã thẻ: {reader.libraryCard.cardNumber}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-blue-500">Chưa có thẻ</span>
+                )}
+              </TableCell>
               <TableCell>
                 <Button
                   className="text-blue-700 bg-blue-100 hover:text-blue-800 hover:bg-blue-200"

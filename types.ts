@@ -49,6 +49,7 @@ type LibraryCard = {
   startDate: Date;
   expirationDate: Date;
   note: string;
+  deleted: boolean;
 };
 
 export type {LibraryCard};

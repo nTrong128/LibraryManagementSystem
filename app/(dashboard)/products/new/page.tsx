@@ -26,6 +26,9 @@ import {useRouter} from "next/navigation";
 import axios from "axios";
 import action from "@/actions/action";
 import {useSession} from "next-auth/react";
+import {bookSchema} from "@/schema/schema";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 export default function NewProductPage() {
   const session = useSession();
@@ -52,17 +55,15 @@ export default function NewProductPage() {
     getData();
   }, []);
 
-  const form = useForm();
+  const form = useForm<z.infer<typeof bookSchema>>({
+    resolver: zodResolver(bookSchema),
+  });
   const {
     handleSubmit,
     control,
     formState: {isSubmitting},
   } = form;
-  async function onSubmit(values: any) {
-    values.authorId = Number(values.authorId);
-    values.categoryId = Number(values.categoryId);
-    values.publisherId = Number(values.publisherId);
-    values.publicationYear = Number(values.publicationYear);
+  async function onSubmit(values: z.infer<typeof bookSchema>) {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/books`,
@@ -72,7 +73,7 @@ export default function NewProductPage() {
       if (response.status === 201) {
         action("list-books");
         alert("Thêm sản phẩm thành công");
-        router.push("/product");
+        router.push("/products");
       }
     } catch (error) {
       console.log("Error creating product", error);
@@ -104,7 +105,6 @@ export default function NewProductPage() {
                       <FormLabel>Tên sách</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập tên sách"
                           type="text"
@@ -122,7 +122,6 @@ export default function NewProductPage() {
                       <FormLabel>Năm xuất bản</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập năm xuất bản"
                           type="text"
@@ -138,9 +137,7 @@ export default function NewProductPage() {
                   render={({field}) => (
                     <FormItem>
                       <FormLabel>Thể loại</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}>
+                      <Select onValueChange={field.onChange}>
                         <FormControl>
                           <SelectTrigger {...field}>
                             <SelectValue placeholder="Chọn thể loại" />
@@ -166,9 +163,7 @@ export default function NewProductPage() {
                   render={({field}) => (
                     <FormItem>
                       <FormLabel>Tác giả</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}>
+                      <Select onValueChange={field.onChange}>
                         <FormControl>
                           <SelectTrigger {...field}>
                             <SelectValue placeholder="Chọn tác giả" />
@@ -194,9 +189,7 @@ export default function NewProductPage() {
                   render={({field}) => (
                     <FormItem>
                       <FormLabel>Tên nhà xuất bản</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}>
+                      <Select onValueChange={field.onChange}>
                         <FormControl>
                           <SelectTrigger {...field}>
                             <SelectValue placeholder="Chọn  nhà xuất bản" />

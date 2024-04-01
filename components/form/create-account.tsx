@@ -13,8 +13,6 @@ import action from "@/actions/action";
 import {Employee} from "@/types";
 
 import {Button} from "@/components/ui/button";
-import {useState} from "react";
-import {Textarea} from "@/components/ui/textarea";
 import {Input} from "@/components/ui/input";
 import {
   Select,
@@ -24,6 +22,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {accountSchema} from "@/schema/schema";
+
 export function CreateAccountForm(prop: {
   employee: Employee;
   open: boolean;
@@ -32,7 +34,9 @@ export function CreateAccountForm(prop: {
   const session = useSession();
   const accessToken = session?.data?.user.accessToken;
 
-  const form = useForm({});
+  const form = useForm<z.infer<typeof accountSchema>>({
+    resolver: zodResolver(accountSchema),
+  });
   const {
     handleSubmit,
     control,
@@ -67,7 +71,7 @@ export function CreateAccountForm(prop: {
             <FormItem>
               <FormLabel>Tên tài khoản</FormLabel>
               <FormControl>
-                <Input required {...field} placeholder="Nhập tên tài khoản" />
+                <Input {...field} placeholder="Nhập tên tài khoản" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,12 +84,7 @@ export function CreateAccountForm(prop: {
             <FormItem>
               <FormLabel>Mật khẩu</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  required
-                  {...field}
-                  placeholder="Nhập mật khẩu"
-                />
+                <Input type="password" {...field} placeholder="Nhập mật khẩu" />
               </FormControl>
               <FormMessage />
             </FormItem>
