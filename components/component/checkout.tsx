@@ -42,6 +42,7 @@ export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
             <TableHead>Số thẻ</TableHead>
             <TableHead>Người tạo</TableHead>
             <TableHead>Ngày mượn</TableHead>
+            <TableHead>Trạng thái</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -51,6 +52,11 @@ export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
               <TableCell>{checkout.libraryCard.cardNumber}</TableCell>
               <TableCell>{checkout?.employee?.fullName}</TableCell>
               <TableCell>{checkout.checkoutDate}</TableCell>
+              <TableCell>
+                {(checkout.returnedAll && (
+                  <span className="text-green-500">Đã hoàn thành</span>
+                )) || <span className="text-red-500">Chưa hoàn thành</span>}
+              </TableCell>
               <TableCell>
                 <Button
                   className="bg-blue-500 text-blue-50 hover:bg-blue-700"

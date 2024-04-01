@@ -69,6 +69,7 @@ type CheckOut = {
   libraryCard: LibraryCard;
   employee: Employee;
   checkoutDate: string;
+  returnedAll: boolean;
 };
 
 export type {CheckOut};

@@ -13,8 +13,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {LogOutButton} from "./logout-button";
 import {usePathname} from "next/navigation";
+import {useSession} from "next-auth/react";
 
 export default function NavigationBar() {
+  const session = useSession();
+  const user = session?.data?.user;
+
   const pathname = usePathname();
   return (
     <header className="flex items-center h-16 px-4 border-b gap-4 lg:gap-8 w-full">
@@ -71,7 +75,8 @@ export default function NavigationBar() {
         </nav>
       </div>
       <div>
-        <div className="flex p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+        <div className="flex gap-x-4 items-center p-2 rounded-full bg-gray-200 ">
+          <span className="italic font-bold">Xin chào, {user?.name}</span>
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>

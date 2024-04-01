@@ -15,13 +15,18 @@ import {useRouter} from "next/navigation";
 import axios from "axios";
 import action from "@/actions/action";
 import {useSession} from "next-auth/react";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {readerSchema} from "@/schema/schema";
 
 export default function NewReaderPage() {
   const session = useSession();
   const accessToken = session?.data?.user?.accessToken;
   const router = useRouter();
 
-  const form = useForm();
+  const form = useForm<z.infer<typeof readerSchema>>({
+    resolver: zodResolver(readerSchema),
+  });
   const {
     handleSubmit,
     control,
@@ -68,7 +73,6 @@ export default function NewReaderPage() {
                       <FormLabel>Tên đọc giả</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập tên đọc giả"
                           type="text"
@@ -86,7 +90,6 @@ export default function NewReaderPage() {
                       <FormLabel>Địa chỉ đọc giả</FormLabel>
                       <FormControl>
                         <Input
-                          required
                           {...field}
                           placeholder="Nhập địa chỉ đọc giả"
                           type="text"
