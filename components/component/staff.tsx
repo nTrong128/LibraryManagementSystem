@@ -21,16 +21,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import {useToast} from "@/components/ui/use-toast";
 import {useState} from "react";
-import {Trash2} from "lucide-react";
+import {Edit, Trash2} from "lucide-react";
 import {deleteEmployee} from "@/actions/employee";
 import CreateAccountDialog from "@/components/dialog/account-create";
 import {AccountStatus} from "../dialog/account-status";
 import {Input} from "../ui/input";
+import {resetPassword} from "@/actions/account";
 
 export function Staff(prop: {employees: Employee[]}) {
   const {toast} = useToast();
   const [selected, setselected] = useState<Employee>();
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenPassword, setIsOpenPassword] = useState(false);
   const [search, setSearch] = useState("");
   const filteredEmployees = prop.employees.filter((employee) => {
     return (
@@ -83,14 +85,21 @@ export function Staff(prop: {employees: Employee[]}) {
                       <p className="text-red-500">Tạm khóa</p>
                     )}
                   </div>
-                  <div>
+                  <div className="flex gap-x-2">
                     <AccountStatus employee={employee} />
+                    <Button
+                      className="text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200"
+                      onClick={() => {
+                        setselected(employee);
+                        setIsOpenPassword(true);
+                      }}>
+                      Khôi phục mật khẩu
+                    </Button>
                   </div>
                 </TableCell>
               )}
               <TableCell>
                 <div className="flex gap-x-2">
-                  {/* <Button>Sửa</Button> */}
                   <Button
                     className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
                     onClick={() => {
@@ -141,6 +150,53 @@ export function Staff(prop: {employees: Employee[]}) {
                   toast({
                     title: "Xóa nhân viên thất bại",
                     description: "Có lỗi xảy ra khi xóa nhân viên",
+                    duration: 3000,
+                  });
+                }
+              }}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={isOpenPassword} onOpenChange={setIsOpenPassword}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Bạn có chắc muốn khôi phục mật khẩu cho tài khoản:{" "}
+              <span className="italic text-red-500">
+                {selected?.account.username} thành mật khẩu mặc định (Staff123)
+              </span>
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Hành động này không thể hoàn tác. Bạn có chắc chắn thực hiện?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogAction
+              className="hover:bg-red-600"
+              onClick={async () => {
+                setIsOpen(false);
+                const res = await resetPassword(selected?.id || 0);
+                if (res.statusCode === 200) {
+                  toast({
+                    title: "Xóa sách thành công",
+                    description: (
+                      <>
+                        <span className="font-bold italic">
+                          Mật khẩu cho tài khoản {selected?.account.username}
+                        </span>{" "}
+                        đã được khôi phục thành công
+                      </>
+                    ),
+                    duration: 3000,
+                  });
+                } else {
+                  toast({
+                    title: "Khôi phục thất bại",
+                    description: "Có lỗi xảy ra khi khôi phục mật khẩu",
                     duration: 3000,
                   });
                 }
