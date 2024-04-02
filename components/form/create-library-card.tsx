@@ -37,8 +37,10 @@ export function CreateLibraryCardForm(prop: {
     formState: {isSubmitting},
   } = form;
   async function onSubmit(values: any) {
+    if (!values.note) {
+      values.note = "";
+    }
     try {
-      console.log("values", values);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/readers/${prop.reader.id}/library-cards`,
         values,
@@ -49,7 +51,6 @@ export function CreateLibraryCardForm(prop: {
         alert("Tạo thẻ thư viện thành công");
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
       console.log("Error create library cards", error);
     }
@@ -85,11 +86,7 @@ export function CreateLibraryCardForm(prop: {
             <FormItem>
               <FormLabel>Ghi chú</FormLabel>
               <FormControl>
-                <Textarea
-                  required
-                  {...field}
-                  placeholder="Nhập ghi chú của thẻ"
-                />
+                <Textarea {...field} placeholder="Nhập ghi chú của thẻ" />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -25,6 +25,7 @@ import {deleteReader} from "@/actions/reader";
 import {Info, Trash2} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {Input} from "../ui/input";
+import {CreateLibraryCardDialog} from "../dialog/library-card-create";
 
 export function BookaholicTable(prop: {readers: Reader[]}) {
   const {toast} = useToast();
@@ -67,19 +68,24 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
               <TableCell className="font-medium">{reader.readerName}</TableCell>
               <TableCell>{reader.address}</TableCell>
               <TableCell>
-                {reader.libraryCard ? (
+                {(reader.libraryCard && (
                   <>
-                    {(reader.libraryCard.deleted === true && (
-                      <span className="text-red-500">Thẻ bị tạm khóa</span>
-                    )) || (
-                      <span className="text-green-500">
-                        Mã thẻ: {reader.libraryCard.cardNumber}
-                      </span>
-                    )}
+                    <span className="text-green-500">
+                      Mã thẻ: {reader.libraryCard?.cardNumber}
+                    </span>
+                    {(reader.libraryCard.deleted && (
+                      <p className="text-red-500 italic font-semibold mb-2">
+                        Thẻ bị tạm khóa
+                      </p>
+                    )) ||
+                      (new Date(reader.libraryCard.expirationDate) <
+                        new Date() && (
+                        <p className="text-red-500 italic font-semibold mb-2">
+                          Thẻ đã quá hạn
+                        </p>
+                      ))}
                   </>
-                ) : (
-                  <span className="text-blue-500">Chưa có thẻ</span>
-                )}
+                )) || <CreateLibraryCardDialog reader={reader} />}
               </TableCell>
               <TableCell>
                 <Button

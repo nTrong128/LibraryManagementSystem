@@ -18,8 +18,8 @@ export function CreateLibraryCardDialog(params: {reader: Reader}) {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200 w-2/5 mx-auto">
-            Tạo thẻ thư viện
+          <Button className="text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200">
+            Tạo thẻ
           </Button>
         </DialogTrigger>
         <DialogContent>

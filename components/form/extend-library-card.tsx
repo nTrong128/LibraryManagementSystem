@@ -43,6 +43,9 @@ export function ExtendLibraryCardForm(prop: {
     formState: {isSubmitting},
   } = form;
   async function onSubmit(values: any) {
+    if (!values.note) {
+      values.note = "";
+    }
     try {
       console.log("values", values);
       const response = await axios.put(
@@ -68,7 +71,7 @@ export function ExtendLibraryCardForm(prop: {
           name="cardDuration"
           render={({field}) => (
             <FormItem>
-              <FormLabel>Số tháng gia hạn thêm (tính từ hôm nay)</FormLabel>
+              <FormLabel>Số tháng gia hạn thêm</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -77,7 +80,6 @@ export function ExtendLibraryCardForm(prop: {
                   placeholder="Nhập số tháng gia hạn"
                   min={1}
                   step={1}
-                  defaultValue={1}
                   max={24}
                 />
               </FormControl>
@@ -92,11 +94,7 @@ export function ExtendLibraryCardForm(prop: {
             <FormItem>
               <FormLabel>Ghi chú</FormLabel>
               <FormControl>
-                <Textarea
-                  required
-                  {...field}
-                  placeholder="Nhập ghi chú của thẻ"
-                />
+                <Textarea {...field} placeholder="Nhập ghi chú của thẻ" />
               </FormControl>
               <FormMessage />
             </FormItem>
