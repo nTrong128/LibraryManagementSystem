@@ -18,7 +18,6 @@ export function DashboardContent(params: {
   const readers = params.readers;
   const employees = params.employees;
   const checkouts = params.checkouts;
-  console.log({book: books});
   return (
     <div className="max-w-6xl mx-auto py-10 flex gap-y-6 flex-col">
       <div className="rounded-md border p-4 shadow-md">
@@ -43,7 +42,6 @@ export function DashboardContent(params: {
           Tổng số tác giả: {params.authors.numberOfAuthors}
         </p>
       </div>
-
       <div className="rounded-md border p-4 shadow-md">
         <span className="font-bold text-3xl">Thống kê nhà xuất bản</span>
         <SummaryTable
@@ -55,7 +53,6 @@ export function DashboardContent(params: {
           Tổng số nhà xuất bản: {publishers.numberOfPublishers}
         </p>
       </div>
-
       <div className="rounded-md border p-4 shadow-md">
         <span className="font-bold text-3xl">Thống kê thể loại</span>
         <SummaryTable
@@ -67,7 +64,6 @@ export function DashboardContent(params: {
           Tổng số thể loại: {categories.numberOfCategories}
         </p>
       </div>
-
       <div className="rounded-md border p-4 shadow-md">
         <span className="font-bold text-3xl">Thống kê độc giả</span>
         <SummaryTable
@@ -85,18 +81,19 @@ export function DashboardContent(params: {
         </p>
       </div>
 
-      <div className="rounded-md border p-4 shadow-md">
-        <span className="font-bold text-3xl">Thống kê nhân viên</span>
-        <SummaryTable
-          data={employees.employees}
-          columns={["ID", "Tên nhân viên", "Số đơn mượn đã xử lý"]}
-          header={["id", "fullName", "numberOfCheckouts"]}
-        />
-        <p className="font-semibold text-xl me-2 text-end">
-          Tổng số nhân viên: {employees.numberOfEmployees}
-        </p>
-      </div>
-
+      {employees && (
+        <div className="rounded-md border p-4 shadow-md">
+          <span className="font-bold text-3xl">Thống kê nhân viên</span>
+          <SummaryTable
+            data={employees.employees}
+            columns={["ID", "Tên nhân viên", "Số đơn mượn đã xử lý"]}
+            header={["id", "fullName", "numberOfCheckouts"]}
+          />
+          <p className="font-semibold text-xl me-2 text-end">
+            Tổng số nhân viên: {employees.numberOfEmployees}
+          </p>
+        </div>
+      )}
       <div className="rounded-md border p-4 shadow-md">
         <span className="font-bold text-3xl">Thống kê đơn mượn sách</span>
         <SummaryTable

@@ -1,4 +1,5 @@
 "use client";
+import {Employee} from "@/types";
 import {
   Form,
   FormField,
@@ -11,34 +12,23 @@ import {useSession} from "next-auth/react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import action from "@/actions/action";
-import {Employee} from "@/types";
-
-import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
+import {Button} from "@/components/ui/button";
+import {useState} from "react";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {accountSchema} from "@/schema/schema";
-import {useState} from "react";
+import {changePasswordSchema} from "@/schema/schema";
 
-export function CreateAccountForm(prop: {
+export function ChangePasswordForm(prop: {
   employee: Employee;
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
-  const [error, setError] = useState("");
   const session = useSession();
   const accessToken = session?.data?.user.accessToken;
-
-  const form = useForm<z.infer<typeof accountSchema>>({
-    resolver: zodResolver(accountSchema),
+  const [error, setError] = useState("");
+  const form = useForm<z.infer<typeof changePasswordSchema>>({
+    resolver: zodResolver(changePasswordSchema),
   });
   const {
     handleSubmit,
@@ -46,16 +36,14 @@ export function CreateAccountForm(prop: {
     formState: {isSubmitting},
   } = form;
   async function onSubmit(values: any) {
-    values.enabled = true;
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${prop.employee.id}/accounts`,
+      const response = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${prop.employee.id}/accounts/password-change`,
         values,
         {headers: {Authorization: `Bearer ${accessToken}`}}
       );
       if (response.data.flag) {
-        action("list-employees");
-        alert("Tạo tài khoản thành công");
+        alert("Cập nhật mật khẩu tài khoản thành công");
         prop.setOpen(false);
       }
     } catch (error) {
@@ -68,41 +56,16 @@ export function CreateAccountForm(prop: {
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <FormField
           control={control}
-          name="username"
+          name="oldPassword"
           render={({field}) => (
             <FormItem>
-              <FormLabel>Tên tài khoản</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Nhập tên tài khoản" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="password"
-          render={({field}) => (
-            <FormItem>
-              <FormLabel>Mật khẩu</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} placeholder="Nhập mật khẩu" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="retype_password"
-          render={({field}) => (
-            <FormItem>
-              <FormLabel>Nhập lại mật khẩu</FormLabel>
+              <FormLabel>Mật khẩu cũ</FormLabel>
               <FormControl>
                 <Input
-                  type="password"
+                  required
                   {...field}
-                  placeholder="Nhập lại mật khẩu"
+                  placeholder="Nhập mật kha cũ"
+                  type="password"
                 />
               </FormControl>
               <FormMessage />
@@ -111,24 +74,36 @@ export function CreateAccountForm(prop: {
         />
         <FormField
           control={control}
-          name="role"
+          name="newPassword"
           render={({field}) => (
             <FormItem>
-              <FormLabel>Tác giả</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                required>
-                <FormControl>
-                  <SelectTrigger {...field}>
-                    <SelectValue placeholder="Chọn loại tài khoản" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value={String("user")}>USER</SelectItem>
-                  <SelectItem value={String("admin")}>ADMIN</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormLabel>Mật khẩu mới</FormLabel>
+              <FormControl>
+                <Input
+                  required
+                  {...field}
+                  placeholder="Nhập mật khẩu mới"
+                  type="password"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="retypePassword"
+          render={({field}) => (
+            <FormItem>
+              <FormLabel>Nhập lại mật khẩu mới</FormLabel>
+              <FormControl>
+                <Input
+                  required
+                  {...field}
+                  placeholder="Nhập lại mật khẩu mới"
+                  type="password"
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -142,7 +117,7 @@ export function CreateAccountForm(prop: {
           className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
           type="submit"
           disabled={isSubmitting}>
-          Tạo tài khoản
+          Cập nhật
         </Button>
       </form>
     </Form>

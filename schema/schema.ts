@@ -68,9 +68,113 @@ export const employeeSchema = z.object({
   birthDate: z.string().optional(),
 });
 
-export const accountSchema = z.object({
-  username: z.string().min(1, {message: "Tên đăng nhập không được để trống"}),
-  password: z.string().min(1, {message: "Mật khẩu không được để trống"}),
-  role: z.string().optional(),
-  employeeId: z.string().optional(),
-});
+export const accountSchema = z
+  .object({
+    username: z.string().min(1, {message: "Tên đăng nhập không được để trống"}),
+    password: z.string().min(1, {message: "Mật khẩu không được để trống"}),
+    retype_password: z
+      .string()
+      .min(1, {message: "Mật khẩu không được để trống"}),
+    role: z.string().optional(),
+    employeeId: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.password.length < 8) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải từ 8 ký tự.",
+        path: ["password"],
+      });
+    }
+    if (!data.password.match(/[A-Z]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 chữ hoa.",
+        path: ["password"],
+      });
+    }
+    if (!data.password.match(/[a-z]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 chữ thường.",
+        path: ["password"],
+      });
+    }
+    if (!data.password.match(/[0-9]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 số.",
+        path: ["password"],
+      });
+    }
+    if (!data.password.match(/[^A-Za-z0-9]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 ký tự đặc biệt.",
+        path: ["password"],
+      });
+    }
+    if (data.password !== data.retype_password) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu không khớp.",
+        path: ["retype_password"],
+      });
+    }
+  });
+
+export const changePasswordSchema = z
+  .object({
+    oldPassword: z
+      .string()
+      .min(1, {message: "Mật khẩu cũ không được để trống"}),
+    newPassword: z
+      .string()
+      .min(1, {message: "Mật khẩu mới không được để trống"}),
+    retypePassword: z.string().min(1, {message: "Mật khẩu không khớp"}),
+  })
+  .superRefine((data, ctx) => {
+    if (data.newPassword.length < 8) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải từ 8 ký tự.",
+        path: ["password"],
+      });
+    }
+    if (!data.newPassword.match(/[A-Z]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 chữ hoa.",
+        path: ["password"],
+      });
+    }
+    if (!data.newPassword.match(/[a-z]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 chữ thường.",
+        path: ["password"],
+      });
+    }
+    if (!data.newPassword.match(/[0-9]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 số.",
+        path: ["password"],
+      });
+    }
+    if (!data.newPassword.match(/[^A-Za-z0-9]/)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu phải có ít nhất 1 ký tự đặc biệt.",
+        path: ["password"],
+      });
+    }
+
+    if (data.newPassword !== data.retypePassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Mật khẩu không khớp.",
+        path: ["retype_password"],
+      });
+    }
+  });

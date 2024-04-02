@@ -18,7 +18,7 @@ import {useSession} from "next-auth/react";
 export default function NavigationBar() {
   const session = useSession();
   const user = session?.data?.user;
-
+  const role = user?.role;
   const pathname = usePathname();
   return (
     <header className="flex items-center h-16 px-4 border-b gap-4 lg:gap-8 w-full">
@@ -67,25 +67,25 @@ export default function NavigationBar() {
             <Link href="/bookaholics">Độc giả</Link>
           </Button>
 
-          <Button
-            asChild
-            variant={pathname === "/employees" ? "default" : "outline"}>
-            <Link href="/employees">Nhân viên</Link>
-          </Button>
+          {role === "admin" && (
+            <Button
+              asChild
+              variant={pathname === "/employees" ? "default" : "outline"}>
+              <Link href="/employees">Nhân viên</Link>
+            </Button>
+          )}
         </nav>
       </div>
       <div>
-        <div className="flex gap-x-4 items-center p-2 rounded-full bg-gray-200 ">
-          <span className="italic font-bold">Xin chào, {user?.name}</span>
+        <div className="flex gap-x-4 items-center p-2 rounded-full bg-gray-200">
+          <span className="italic">Xin chào, {user?.name}</span>
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>
-                  <User />
+                <AvatarFallback className="bg-sky-500">
+                  <p className="text-white">
+                    {user?.name.charAt(0).toUpperCase()}
+                  </p>
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>

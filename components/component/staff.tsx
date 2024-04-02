@@ -71,7 +71,7 @@ export function Staff(prop: {employees: Employee[]}) {
               </TableCell>
               <TableCell>{employee.phoneNumber}</TableCell>
               {employee.account === null ? (
-                <TableCell>
+                <TableCell className="flex items-center justify-center">
                   <CreateAccountDialog employee={employee} />
                 </TableCell>
               ) : (
