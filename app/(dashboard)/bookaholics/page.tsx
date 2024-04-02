@@ -54,7 +54,7 @@ export default async function Bookaholic() {
       </Card>
 
       {(readers.length === 0 && (
-        <div className="pt-10 text-5xl mx-auto text-center">
+        <div className="text-3xl font-semibold text-center m-4">
           Không có độc giả nào
         </div>
       )) || <BookaholicTable readers={readers} />}

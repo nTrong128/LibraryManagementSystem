@@ -91,7 +91,7 @@ export default function NavigationBar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href={"/profile"}>
                   <Button variant={"ghost"}>
                     <User />

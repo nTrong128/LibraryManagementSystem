@@ -86,11 +86,9 @@ export default function NewProductPage() {
       </Button>
       <div className="m-auto my-10 max-w-3xl">
         <div>
-          <h1 className="text-3xl font-semibold text-center">
-            Add New Product
-          </h1>
+          <h1 className="text-3xl font-semibold text-center">Thêm sách mới</h1>
           <p className="mt-2 text-sm text-gray-500 text-center">
-            Add a new product to your store.
+            Thêm sách mới vào hệ thống
           </p>
         </div>
         <div className="rounded-lg border p-4">

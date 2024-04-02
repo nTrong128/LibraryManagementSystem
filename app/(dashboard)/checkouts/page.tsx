@@ -60,7 +60,9 @@ export default async function CheckOut() {
         </CardHeader>
       </Card>
       {checkouts.length === 0 ? (
-        <div>Không có sách nào được mượn</div>
+        <div className="text-3xl font-semibold text-center m-4">
+          Không có sách nào được mượn
+        </div>
       ) : (
         <div className=" m-12 border max-w-6xl mx-auto">
           <CheckOutTable checkouts={checkouts} />

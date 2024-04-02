@@ -45,7 +45,9 @@ export default async function AuthorPage() {
         </CardHeader>
       </Card>
       {authors.length === 0 ? (
-        <div>Không có tác giả nào</div>
+        <div className="text-3xl font-semibold text-center m-4">
+          Không có tác giả nào
+        </div>
       ) : (
         <AuthorTable authors={authors} />
       )}

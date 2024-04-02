@@ -51,7 +51,9 @@ export default async function Category() {
         </CardHeader>
       </Card>
       {publisher.length === 0 ? (
-        <div>Không có nhà xuất bản nào</div>
+        <div className="text-3xl font-semibold text-center m-4">
+          Không có nhà xuất bản nào
+        </div>
       ) : (
         <div className=" my-10 border mx-10">
           <PublisherTable publishers={publisher} />

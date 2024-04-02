@@ -46,7 +46,9 @@ export default async function ProductPage() {
         </CardHeader>
       </Card>
       {book.length === 0 ? (
-        <div>Không có sách nào</div>
+        <div className="text-3xl font-semibold text-center m-4">
+          Không có sách nào
+        </div>
       ) : (
         <ProductTable book={book} />
       )}
