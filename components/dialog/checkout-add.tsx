@@ -11,8 +11,12 @@ import {FilePenLine} from "lucide-react";
 import {useState} from "react";
 import {CreateCheckOutForm} from "../form/create-checkout";
 
-export default function CreateCheckOutDialog(params: {books: any}) {
+export default function CreateCheckOutDialog(params: {
+  books: any;
+  readers: any;
+}) {
   const books = params.books;
+  const readers = params.readers;
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -25,7 +29,12 @@ export default function CreateCheckOutDialog(params: {books: any}) {
         <DialogHeader>
           <DialogTitle>Thêm mượn sách mới</DialogTitle>
         </DialogHeader>
-        <CreateCheckOutForm books={books} open={open} setOpen={setOpen} />
+        <CreateCheckOutForm
+          books={books}
+          readers={readers}
+          open={open}
+          setOpen={setOpen}
+        />
       </DialogContent>
     </Dialog>
   );

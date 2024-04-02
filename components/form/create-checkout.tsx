@@ -1,3 +1,4 @@
+"use client";
 import {
   Form,
   FormField,
@@ -6,13 +7,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {useSession} from "next-auth/react";
-import {set, useForm} from "react-hook-form";
-import axios from "axios";
-import action from "@/actions/action";
-
-import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -20,7 +14,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {Book} from "@/types";
+import {useSession} from "next-auth/react";
+import {useForm} from "react-hook-form";
+import axios from "axios";
+import action from "@/actions/action";
+
+import {Button} from "@/components/ui/button";
+
+import {Book, Reader} from "@/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,12 +29,15 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import {useState} from "react";
+import {ScrollArea} from "@/components/ui/scroll-area";
 
 export function CreateCheckOutForm(prop: {
   books: Book[];
+  readers: Reader[];
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const readers = prop.readers.filter((reader) => reader.libraryCard);
   const session = useSession();
   const accessToken = session?.data?.user.accessToken;
   const employeeId = session?.data?.user.id;
@@ -90,9 +94,9 @@ export function CreateCheckOutForm(prop: {
 
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
-      console.log("Error create account for employee", error);
+      const responseError = error as {response: {data: {message: string}}};
+      setError(responseError.response.data.message);
     }
   }
   return (
@@ -103,28 +107,44 @@ export function CreateCheckOutForm(prop: {
           name="cardNumber"
           render={({field}) => (
             <FormItem>
-              <FormLabel>Mã thẻ thư viện</FormLabel>
-              <FormControl>
-                <Input required {...field} placeholder="Nhập mã thẻ thư viện" />
-              </FormControl>
+              <FormLabel>Người mượn</FormLabel>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger {...field}>
+                    <SelectValue placeholder="Chọn người mượn" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {readers.map((reader: Reader) => (
+                    <SelectItem
+                      key={reader.id}
+                      value={String(reader.libraryCard?.cardNumber)}>
+                      {reader.readerName}, mã thẻ:{" "}
+                      {reader.libraryCard?.cardNumber}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
         />
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button className="w-full" variant={"outline"}>
               Chọn sách
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {prop.books.map((book) => (
-              <DropdownMenuItem
-                key={book.id}
-                onClick={() => addToBorrowBook(book)}>
-                {book.bookName}
-              </DropdownMenuItem>
-            ))}
+          <DropdownMenuContent asChild>
+            <ScrollArea className="h-72 w-48 rounded-md border">
+              {prop.books.map((book) => (
+                <DropdownMenuItem
+                  key={book.id}
+                  onClick={() => addToBorrowBook(book)}>
+                  {book.bookName}
+                </DropdownMenuItem>
+              ))}
+            </ScrollArea>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -155,7 +175,7 @@ export function CreateCheckOutForm(prop: {
           className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
           type="submit"
           disabled={isSubmitting}>
-          Tạo thẻ
+          Tạo đơn mượn
         </Button>
       </form>
     </Form>

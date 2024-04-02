@@ -21,12 +21,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import {useToast} from "@/components/ui/use-toast";
 import {useState} from "react";
-import {Edit, Trash2} from "lucide-react";
+import {Trash2} from "lucide-react";
 import {deleteEmployee} from "@/actions/employee";
 import CreateAccountDialog from "@/components/dialog/account-create";
 import {AccountStatus} from "../dialog/account-status";
 import {Input} from "../ui/input";
 import {resetPassword} from "@/actions/account";
+import {AccountDelete} from "../dialog/account-delete";
 
 export function Staff(prop: {employees: Employee[]}) {
   const {toast} = useToast();
@@ -50,7 +51,7 @@ export function Staff(prop: {employees: Employee[]}) {
         className="mx-auto mt-10 w-2/3 rounded-md"
         placeholder="Tìm kiếm nhân viên"
       />
-      <Table className="border mt-10 mx-auto max-w-5xl">
+      <Table className="border mt-10 mx-auto">
         <TableHeader>
           <TableRow>
             <TableHead>Mã Nhân viên</TableHead>
@@ -87,6 +88,9 @@ export function Staff(prop: {employees: Employee[]}) {
                   </div>
                   <div className="flex gap-x-2">
                     <AccountStatus employee={employee} />
+                    {employee?.account?.role !== "admin" && (
+                      <AccountDelete employee={employee} />
+                    )}
                     <Button
                       className="text-green-700 bg-green-100 hover:text-green-800 hover:bg-green-200"
                       onClick={() => {
@@ -95,19 +99,22 @@ export function Staff(prop: {employees: Employee[]}) {
                       }}>
                       Khôi phục mật khẩu
                     </Button>
+                    {/* <AccountRole employee={employee} /> */}
                   </div>
                 </TableCell>
               )}
               <TableCell>
                 <div className="flex gap-x-2">
-                  <Button
-                    className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
-                    onClick={() => {
-                      setselected(employee);
-                      setIsOpen(true);
-                    }}>
-                    <Trash2 />
-                  </Button>
+                  {employee?.account?.role !== "admin" && (
+                    <Button
+                      className="text-red-700 bg-red-100 hover:text-red-800 hover:bg-red-200"
+                      onClick={() => {
+                        setselected(employee);
+                        setIsOpen(true);
+                      }}>
+                      <Trash2 />
+                    </Button>
+                  )}
                 </div>
               </TableCell>
             </TableRow>
@@ -135,7 +142,7 @@ export function Staff(prop: {employees: Employee[]}) {
                 const res = await deleteEmployee(selected?.id || 0);
                 if (res.statusCode === 200) {
                   toast({
-                    title: "Xóa sách thành công",
+                    title: "Xóa nhân viên thành công",
                     description: (
                       <>
                         <span className="font-bold italic">
@@ -166,7 +173,7 @@ export function Staff(prop: {employees: Employee[]}) {
             <AlertDialogTitle>
               Bạn có chắc muốn khôi phục mật khẩu cho tài khoản:{" "}
               <span className="italic text-red-500">
-                {selected?.account.username} thành mật khẩu mặc định (Staff123)
+                {selected?.account?.username} thành mật khẩu mặc định (Staff123)
               </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
@@ -186,7 +193,7 @@ export function Staff(prop: {employees: Employee[]}) {
                     description: (
                       <>
                         <span className="font-bold italic">
-                          Mật khẩu cho tài khoản {selected?.account.username}
+                          Mật khẩu cho tài khoản {selected?.account?.username}
                         </span>{" "}
                         đã được khôi phục thành công
                       </>

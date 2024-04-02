@@ -1,16 +1,17 @@
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
 import {PersonStanding} from "lucide-react";
 import {Book, CheckOut, LibraryCard} from "@/types";
 import {CheckOutTable} from "@/components/component/checkout";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/auth";
 import CreateCheckOutDialog from "@/components/dialog/checkout-add";
+
 export default async function CheckOut() {
   const session = await getServerSession(authOptions);
 
   let checkouts: CheckOut[] = [];
   let books: Book[] = [];
+  let readers: LibraryCard[] = [];
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/checkouts`,
@@ -34,11 +35,27 @@ export default async function CheckOut() {
         cache: "no-cache",
       }
     );
+
+    const res_readers = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/readers`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user?.accessToken}`,
+        },
+        method: "GET",
+        next: {tags: ["list-readers"]},
+        cache: "no-cache",
+      }
+    );
+
     const data_card = await res_books.json();
     books = data_card.data;
 
     const data = await res.json();
     checkouts = data.data;
+
+    const data_reader = await res_readers.json();
+    readers = data_reader.data;
 
     if (!checkouts) return <div>Loading...</div>;
   } catch (error) {
@@ -55,7 +72,7 @@ export default async function CheckOut() {
               <CardTitle>Mượn sách</CardTitle>
             </div>
 
-            <CreateCheckOutDialog books={books} />
+            <CreateCheckOutDialog books={books} readers={readers} />
           </div>
         </CardHeader>
       </Card>

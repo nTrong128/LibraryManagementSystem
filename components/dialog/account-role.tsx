@@ -10,28 +10,28 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import {toast} from "../ui/use-toast";
-import {ChangeStatusAccount} from "@/actions/account";
+import {changeRole} from "@/actions/account";
 import {Button} from "../ui/button";
 
-export function AccountStatus(prop: {employee: Employee}) {
+export function AccountRole(prop: {employee: Employee}) {
   const employee = prop.employee;
-  const newStatus = !employee.account.enabled;
-
+  const role = employee.account.role;
+  const newRole = role === "admin" ? "user" : "admin";
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        {newStatus ? (
-          <Button className="bg-green-500 text-white">Mở tài khoản</Button>
+        {role === "admin" ? (
+          <Button className="bg-green-500 text-white">USER</Button>
         ) : (
-          <Button className="bg-blue-500 text-white">Khóa tài khoản</Button>
+          <Button className="bg-green-500 text-white">ADMIN</Button>
         )}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
             Bạn có chắc muốn đổi tài khoản:{" "}
-            <span className="italic text-red-500">
-              {employee?.account.username}
+            <span className=" text-green-500">
+              {employee?.account.username} thành {newRole.toUpperCase()}
             </span>
           </AlertDialogTitle>
         </AlertDialogHeader>
@@ -40,27 +40,25 @@ export function AccountStatus(prop: {employee: Employee}) {
           <AlertDialogAction
             className="hover:bg-red-600"
             onClick={async () => {
-              const res = await ChangeStatusAccount(employee.id, newStatus);
+              const res = await changeRole(employee.id, newRole);
+              console.log(res);
               if (res.statusCode === 200) {
                 toast({
-                  title: "Đổi trạng thái thành công",
+                  title: "Đổi quyền thành công",
                   description: (
                     <>
                       <span className="font-bold italic">
-                        Tài khoản {employee.id}
+                        Tài khoản của {employee.fullName}
                       </span>{" "}
-                      đã được thay đổi trạng thái.
+                      đã được thay đổi quyền.
                     </>
                   ),
                   duration: 3000,
                 });
               } else {
-                console.log(res);
-                console.log({employee, newStatus});
                 toast({
-                  title: "Đổi trạng thái tài khoản thất bại",
-                  description:
-                    "Có lỗi xảy ra khi đổi trạng thái tài khoản. Có thể đây là tài khoản quản trị",
+                  title: "Đổi quyền không thành công",
+                  description: "Có lỗi xảy ra khi đổi quyền tài khoản.",
                   duration: 3000,
                 });
               }

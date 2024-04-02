@@ -10,26 +10,21 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import {toast} from "../ui/use-toast";
-import {ChangeStatusAccount} from "@/actions/account";
+import {deleteAccount} from "@/actions/account";
 import {Button} from "../ui/button";
 
-export function AccountStatus(prop: {employee: Employee}) {
+export function AccountDelete(prop: {employee: Employee}) {
   const employee = prop.employee;
-  const newStatus = !employee.account.enabled;
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        {newStatus ? (
-          <Button className="bg-green-500 text-white">Mở tài khoản</Button>
-        ) : (
-          <Button className="bg-blue-500 text-white">Khóa tài khoản</Button>
-        )}
+        <Button className="bg-red-500 text-white">Xóa tài khoản</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Bạn có chắc muốn đổi tài khoản:{" "}
+            Bạn có chắc muốn xóa tài khoản:{" "}
             <span className="italic text-red-500">
               {employee?.account.username}
             </span>
@@ -40,27 +35,24 @@ export function AccountStatus(prop: {employee: Employee}) {
           <AlertDialogAction
             className="hover:bg-red-600"
             onClick={async () => {
-              const res = await ChangeStatusAccount(employee.id, newStatus);
+              const res = await deleteAccount(employee.id);
               if (res.statusCode === 200) {
                 toast({
                   title: "Đổi trạng thái thành công",
                   description: (
                     <>
-                      <span className="font-bold italic">
-                        Tài khoản {employee.id}
-                      </span>{" "}
-                      đã được thay đổi trạng thái.
+                      Tài khoản của
+                      <span className="font-bold">{employee.fullName}</span> đã
+                      được xóa thành công.
                     </>
                   ),
                   duration: 3000,
                 });
               } else {
-                console.log(res);
-                console.log({employee, newStatus});
                 toast({
-                  title: "Đổi trạng thái tài khoản thất bại",
+                  title: "Xóa tài khoản thất bại",
                   description:
-                    "Có lỗi xảy ra khi đổi trạng thái tài khoản. Có thể đây là tài khoản quản trị",
+                    "Có lỗi xảy ra khi xóa tài khoản. Có thể đây là tài khoản quản trị",
                   duration: 3000,
                 });
               }

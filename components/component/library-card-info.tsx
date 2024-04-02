@@ -22,7 +22,8 @@ export default function LibraryCardInfo(params: {reader: Reader}) {
   const reader = params.reader;
   const router = useRouter();
   const {toast} = useToast();
-  const [isOpen, setIsOpen] = useState(false);
+  const [deActivate, setdeActivate] = useState(false);
+  const [activate, setActivate] = useState(false);
   return (
     <main className="m-4">
       <Button className="w-1/6" onClick={() => router.back()}>
@@ -68,15 +69,32 @@ export default function LibraryCardInfo(params: {reader: Reader}) {
                 Thẻ đã quá hạn
               </p>
             )}
+            {reader.libraryCard.deleted && (
+              <p className="text-red-500 italic font-semibold mb-2">
+                Thẻ bị tạm khóa
+              </p>
+            )}
+
             <div className="flex gap-x-2">
-              <Button
-                variant={"destructive"}
-                className="w-1/2"
-                onClick={() => {
-                  setIsOpen(true);
-                }}>
-                Vô hiệu hóa thẻ
-              </Button>
+              {(reader.libraryCard.deleted && (
+                <Button
+                  className="w-1/2 bg-green-500 hover:bg-green-600"
+                  onClick={() => {
+                    setActivate(true);
+                  }}>
+                  Mở khóa thẻ
+                </Button>
+              )) || (
+                <Button
+                  variant={"destructive"}
+                  className="w-1/2"
+                  onClick={() => {
+                    setdeActivate(true);
+                  }}>
+                  Vô hiệu hóa thẻ
+                </Button>
+              )}
+
               <ExtendLibraryCard reader={reader} />
             </div>
           </div>
@@ -89,7 +107,9 @@ export default function LibraryCardInfo(params: {reader: Reader}) {
           </div>
         )}
       </div>
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+
+      {/* DEACTIVATE */}
+      <AlertDialog open={deActivate} onOpenChange={setdeActivate}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
@@ -108,7 +128,7 @@ export default function LibraryCardInfo(params: {reader: Reader}) {
             <AlertDialogAction
               className="hover:bg-red-600"
               onClick={async () => {
-                setIsOpen(false);
+                setdeActivate(false);
                 const res = await deleteLibraryCard(reader?.id || 0);
                 if (res.statusCode === 200) {
                   toast({
@@ -128,6 +148,55 @@ export default function LibraryCardInfo(params: {reader: Reader}) {
                     title: "Xóa thẻ thất bại",
                     description:
                       "Có lỗi xảy ra khi xóa thẻ, có thể thẻ này đang sử dụng",
+                    duration: 3000,
+                  });
+                }
+              }}>
+              Tiếp tục
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* ACTIVATE */}
+      <AlertDialog open={activate} onOpenChange={setActivate}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Bạn có chắc muốn mở khóa thẻ:{"  "}
+              <span className="italic text-green-500">
+                {reader?.libraryCard?.cardNumber} của đọc giả{" "}
+                {reader.readerName}
+              </span>
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Thẻ sẽ được mở khóa và đọc giả có thể mượn sách
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogAction
+              className="hover:bg-green-600"
+              onClick={async () => {
+                setActivate(false);
+                const res = await deleteLibraryCard(reader?.id || 0);
+                if (res.statusCode === 200) {
+                  toast({
+                    title: "Mở khóa thẻ thành công",
+                    description: (
+                      <>
+                        <span className="font-bold italic">
+                          Thẻ của {reader?.readerName}
+                        </span>{" "}
+                        đã được mở khóa thành công
+                      </>
+                    ),
+                    duration: 3000,
+                  });
+                } else {
+                  toast({
+                    title: "Mã khóa thẻ thất bại",
+                    description: "Có lỗi xảy ra khi mở khóa thẻ",
                     duration: 3000,
                   });
                 }
