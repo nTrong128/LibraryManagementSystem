@@ -37,7 +37,7 @@ export function DashboardContent(params: {
           <span className="font-bold text-3xl">Thống kê sách</span>
           <SummaryTable
             data={books.books}
-            columns={["ID", "Tên sách", "Số lần mượn"]}
+            columns={["ID sách", "Tên sách", "Số lần mượn"]}
             header={["id", "bookName", "numberOfCheckouts"]}
           />
           <p className="font-semibold text-xl me-2 text-end">
@@ -50,7 +50,7 @@ export function DashboardContent(params: {
           <span className="font-bold text-3xl">Thống kê tác giả</span>
           <SummaryTable
             data={authors.authors}
-            columns={["ID", "Tên tác giả", "Số lượng sách"]}
+            columns={["ID tác giả", "Tên tác giả", "Số lượng sách"]}
             header={["id", "authorName", "numberOfBooks"]}
           />
           <p className="font-semibold text-xl me-2 text-end">
@@ -63,7 +63,7 @@ export function DashboardContent(params: {
           <span className="font-bold text-3xl">Thống kê nhà xuất bản</span>
           <SummaryTable
             data={publishers.publishers}
-            columns={["ID", "Tên nhà xuất bản", "Số lượng sách"]}
+            columns={["ID nhà xuất bản", "Tên nhà xuất bản", "Số lượng sách"]}
             header={["id", "publisherName", "numberOfBooks"]}
           />
           <p className="font-semibold text-xl me-2 text-end">
@@ -76,7 +76,7 @@ export function DashboardContent(params: {
           <span className="font-bold text-3xl">Thống kê thể loại</span>
           <SummaryTable
             data={categories.categories}
-            columns={["ID", "Tên thể loại", "Số lượng sách"]}
+            columns={["ID loại", "Tên thể loại", "Số lượng sách"]}
             header={["id", "categoryName", "numberOfBooks"]}
           />
           <p className="font-semibold text-xl me-2 text-end">
@@ -89,7 +89,7 @@ export function DashboardContent(params: {
           <span className="font-bold text-3xl">Thống kê đơn mượn sách</span>
           <SummaryTable
             data={checkouts.checkouts}
-            columns={["ID", "Số lượng sách mượn"]}
+            columns={["ID thẻ mượn", "Số lượng sách mượn"]}
             header={["id", "numberOfDetails"]}
           />
           <p className="font-semibold text-xl me-2 text-end">
@@ -103,7 +103,7 @@ export function DashboardContent(params: {
           <SummaryTable
             data={readers.readers}
             columns={[
-              "ID",
+              "ID độc giả",
               "Tên độc giả",
               "Số lượng đã sách mượn",
               "Số lần mượn",
@@ -121,7 +121,11 @@ export function DashboardContent(params: {
             <span className="font-bold text-3xl">Thống kê nhân viên</span>
             <SummaryTable
               data={employees.employees}
-              columns={["ID", "Tên nhân viên", "Số đơn mượn đã xử lý"]}
+              columns={[
+                "ID nhân viên",
+                "Tên nhân viên",
+                "Số đơn mượn đã xử lý",
+              ]}
               header={["id", "fullName", "numberOfCheckouts"]}
             />
             <p className="font-semibold text-xl me-2 text-end">
