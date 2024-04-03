@@ -12,6 +12,7 @@ import {Button} from "../ui/button";
 import {useRouter} from "next/navigation";
 import {Input} from "../ui/input";
 import {useState} from "react";
+import {useSortableData} from "@/lib/sorting";
 
 export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
   const router = useRouter();
@@ -24,6 +25,14 @@ export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
       checkout.employee.fullName.toLowerCase().includes(search.toLowerCase())
     );
   });
+  const {items, requestSort, sortConfig} = useSortableData(filteredCheckouts);
+  const getClassNamesFor = (name: any) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+
   if (!checkouts) return <div>no data...</div>;
   return (
     <>
@@ -41,12 +50,16 @@ export function CheckOutTable(prop: {checkouts: CheckOut[]}) {
             <TableHead className="w-[150px]">Mã mượn trả</TableHead>
             <TableHead>Số thẻ</TableHead>
             <TableHead>Người tạo</TableHead>
-            <TableHead>Ngày mượn</TableHead>
-            <TableHead>Trạng thái</TableHead>
+            <TableHead onClick={() => requestSort("checkoutDate")}>
+              Ngày mượn
+            </TableHead>
+            <TableHead onClick={() => requestSort("returnedAll")}>
+              Trạng thái
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredCheckouts.map((checkout: CheckOut) => (
+          {items.map((checkout: CheckOut) => (
             <TableRow key={checkout.id}>
               <TableCell>{checkout.id}</TableCell>
               <TableCell>{checkout.libraryCard.cardNumber}</TableCell>

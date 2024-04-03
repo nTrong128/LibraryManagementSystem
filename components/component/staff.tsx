@@ -28,6 +28,7 @@ import {AccountStatus} from "../dialog/account-status";
 import {Input} from "../ui/input";
 import {resetPassword} from "@/actions/account";
 import {AccountDelete} from "../dialog/account-delete";
+import {useSortableData} from "@/lib/sorting";
 
 export function Staff(prop: {employees: Employee[]}) {
   const {toast} = useToast();
@@ -41,6 +42,13 @@ export function Staff(prop: {employees: Employee[]}) {
       employee.id.toString().includes(search)
     );
   });
+  const {items, requestSort, sortConfig} = useSortableData(filteredEmployees);
+  const getClassNamesFor = (name: any) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
   return (
     <>
       <Input
@@ -54,16 +62,22 @@ export function Staff(prop: {employees: Employee[]}) {
       <Table className="border mt-10 mx-auto">
         <TableHeader>
           <TableRow>
-            <TableHead>Mã Nhân viên</TableHead>
-            <TableHead>Họ và Tên</TableHead>
-            <TableHead>Ngày Sinh</TableHead>
+            <TableHead onClick={() => requestSort("id")}>
+              Mã Nhân viên
+            </TableHead>
+            <TableHead onClick={() => requestSort("fullName")}>
+              Họ và Tên
+            </TableHead>
+            <TableHead onClick={() => requestSort("birthDate")}>
+              Ngày Sinh
+            </TableHead>
             <TableHead>Số điện thoại</TableHead>
             <TableHead>Tài khoản</TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredEmployees.map((employee: Employee) => (
+          {items.map((employee: Employee) => (
             <TableRow key={employee.id}>
               <TableCell>{employee.id}</TableCell>
               <TableCell>{employee.fullName}</TableCell>

@@ -26,6 +26,7 @@ import {Trash2} from "lucide-react";
 import {DeleteCategory} from "@/actions/category";
 import EditCategoryDialog from "../dialog/category-edit-dialog";
 import {Input} from "../ui/input";
+import {useSortableData} from "@/lib/sorting";
 
 export function CategoryTable(prop: {categories: Category[]}) {
   const {toast} = useToast();
@@ -38,6 +39,13 @@ export function CategoryTable(prop: {categories: Category[]}) {
       category.id.toString().includes(search)
     );
   });
+  const {items, requestSort, sortConfig} = useSortableData(filteredCategories);
+  const getClassNamesFor = (name: any) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
 
   return (
     <>
@@ -52,14 +60,18 @@ export function CategoryTable(prop: {categories: Category[]}) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mã loại</TableHead>
-            <TableHead>Tên thể loại</TableHead>
-            <TableHead>Số lượng sách</TableHead>
+            <TableHead onClick={() => requestSort("id")}>Mã loại</TableHead>
+            <TableHead onClick={() => requestSort("categoryName")}>
+              Tên thể loại
+            </TableHead>
+            <TableHead onClick={() => requestSort("numberOfBooks")}>
+              Số lượng sách
+            </TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredCategories.map((category: Category) => (
+          {items.map((category: Category) => (
             <TableRow key={category.id}>
               <TableCell>{category.id}</TableCell>
               <TableCell>{category.categoryName}</TableCell>

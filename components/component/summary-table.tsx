@@ -4,7 +4,6 @@ import {
   TableCell,
   TableHeader,
   TableHead,
-  TableFooter,
   TableRow,
 } from "../ui/table";
 export function SummaryTable(params: {data: any; header: any; columns: any}) {

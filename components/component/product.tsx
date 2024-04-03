@@ -10,7 +10,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import {Book} from "@/types";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -26,6 +26,7 @@ import {useToast} from "@/components/ui/use-toast";
 import {useRouter} from "next/navigation";
 import EditBookDialog from "@/components/dialog/book-edit-dialog";
 import {Input} from "../ui/input";
+import {useSortableData} from "@/lib/sorting";
 
 export function ProductTable(prop: {book: Book[]}) {
   const router = useRouter();
@@ -40,6 +41,14 @@ export function ProductTable(prop: {book: Book[]}) {
       book.id.toString().includes(search)
     );
   });
+
+  const {items, requestSort, sortConfig} = useSortableData(filteredBooks);
+  const getClassNamesFor = (name: any) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
   return (
     <>
       <Input
@@ -53,17 +62,25 @@ export function ProductTable(prop: {book: Book[]}) {
       <Table className="mx-auto my-10 border max-w-6xl">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Mã sách</TableHead>
-            <TableHead>Tiêu đề</TableHead>
+            <TableHead onClick={() => requestSort("id")} className="w-[100px]">
+              Mã sách
+            </TableHead>
+
+            <TableHead onClick={() => requestSort("bookName")}>
+              Tiêu đề
+            </TableHead>
+
             <TableHead>Tác giả</TableHead>
             <TableHead>Thể loại</TableHead>
             <TableHead>Nhà xuất bản</TableHead>
-            <TableHead>Năm xuất bản</TableHead>
+            <TableHead onClick={() => requestSort("publicationYear")}>
+              Năm xuất bản
+            </TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredBooks.map((book: Book) => (
+          {items.map((book: Book) => (
             <TableRow key={book.id}>
               <TableCell className="font-medium">{book.id}</TableCell>
               <TableCell>{book.bookName}</TableCell>

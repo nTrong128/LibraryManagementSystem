@@ -25,6 +25,7 @@ import {Trash2} from "lucide-react";
 import {deletePublisher} from "@/actions/publisher";
 import EditPublisherDialog from "../dialog/publisher-edit-dialog";
 import {Input} from "../ui/input";
+import {useSortableData} from "@/lib/sorting";
 
 export function PublisherTable(prop: {publishers: Publisher[]}) {
   const {toast} = useToast();
@@ -37,6 +38,14 @@ export function PublisherTable(prop: {publishers: Publisher[]}) {
       publisher.id.toString().includes(search)
     );
   });
+
+  const {items, requestSort, sortConfig} = useSortableData(filteredPublishers);
+  const getClassNamesFor = (name: any) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
   return (
     <>
       <Input
@@ -50,16 +59,20 @@ export function PublisherTable(prop: {publishers: Publisher[]}) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mã NXB</TableHead>
-            <TableHead>Tên nhà xuất bản</TableHead>
+            <TableHead onClick={() => requestSort("id")}>Mã NXB</TableHead>
+            <TableHead onClick={() => requestSort("publisherName")}>
+              Tên nhà xuất bản
+            </TableHead>
             <TableHead>Địa chỉ</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Thông tin đại diện</TableHead>
-            <TableHead>Số lượng sách</TableHead>
+            <TableHead onClick={() => requestSort("numberOfBooks")}>
+              Số lượng sách
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredPublishers.map((publisher: Publisher) => (
+          {items.map((publisher: Publisher) => (
             <TableRow key={publisher.id}>
               <TableCell>{publisher.id}</TableCell>
               <TableCell>{publisher.publisherName}</TableCell>

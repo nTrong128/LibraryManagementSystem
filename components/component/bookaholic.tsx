@@ -26,6 +26,7 @@ import {Info, Trash2} from "lucide-react";
 import {useRouter} from "next/navigation";
 import {Input} from "../ui/input";
 import {CreateLibraryCardDialog} from "../dialog/library-card-create";
+import {useSortableData} from "@/lib/sorting";
 
 export function BookaholicTable(prop: {readers: Reader[]}) {
   const {toast} = useToast();
@@ -40,6 +41,15 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
       reader.id.toString().includes(search)
     );
   });
+
+  const {items, requestSort, sortConfig} = useSortableData(filteredReaders);
+  const getClassNamesFor = (name: any) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+
   return (
     <>
       <Input
@@ -53,16 +63,22 @@ export function BookaholicTable(prop: {readers: Reader[]}) {
       <Table className="max-w-6xl mx-auto mt-10 border">
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[120px]">Mã độc giả</TableHead>
-            <TableHead>Tên độc giả</TableHead>
-            <TableHead>Địa chỉ</TableHead>
+            <TableHead onClick={() => requestSort("id")} className="w-[120px]">
+              Mã độc giả
+            </TableHead>
+            <TableHead onClick={() => requestSort("readerName")}>
+              Tên độc giả
+            </TableHead>
+            <TableHead onClick={() => requestSort("address")}>
+              Địa chỉ
+            </TableHead>
             <TableHead>Mã thẻ</TableHead>
             <TableHead>Thẻ thư viện</TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredReaders.map((reader: Reader) => (
+          {items.map((reader: Reader) => (
             <TableRow key={reader.id}>
               <TableCell>{reader.id}</TableCell>
               <TableCell className="font-medium">{reader.readerName}</TableCell>

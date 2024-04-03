@@ -27,7 +27,6 @@ export default async function ProductPage() {
     if (!book) return <div>Loading...</div>;
   } catch (error) {
     return <div>SOMETHING WENT WRONG...</div>;
-    console.error("Error fetching books:", error);
   }
 
   return (

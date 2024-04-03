@@ -26,6 +26,7 @@ import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import EditAuthorDialog from "../dialog/author-edit-dialog";
 import {Input} from "../ui/input";
+import {useSortableData} from "@/lib/sorting";
 
 export function AuthorTable(prop: {authors: Author[]}) {
   const {toast} = useToast();
@@ -38,6 +39,13 @@ export function AuthorTable(prop: {authors: Author[]}) {
       author.id.toString().includes(search)
     );
   });
+  const {items, requestSort, sortConfig} = useSortableData(filteredAuthors);
+  const getClassNamesFor = (name: any) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
   return (
     <>
       <Input
@@ -51,16 +59,20 @@ export function AuthorTable(prop: {authors: Author[]}) {
       <Table className="max-w-6xl mt-10 mx-auto">
         <TableHeader>
           <TableRow>
-            <TableHead>Mã tác giả</TableHead>
-            <TableHead>Tên tác giả</TableHead>
+            <TableHead onClick={() => requestSort("id")}>Mã tác giả</TableHead>
+            <TableHead onClick={() => requestSort("authorName")}>
+              Tên tác giả
+            </TableHead>
             <TableHead>Trang web</TableHead>
             <TableHead>Ghi chú</TableHead>
-            <TableHead>Số lượng sách</TableHead>
+            <TableHead onClick={() => requestSort("numberOfBooks")}>
+              Số lượng sách
+            </TableHead>
             <TableHead>Tác vụ</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredAuthors.map((author: Author) => (
+          {items.map((author: Author) => (
             <TableRow key={author.id}>
               <TableCell>{author.id}</TableCell>
               <TableCell>{author.authorName}</TableCell>
