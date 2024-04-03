@@ -23,24 +23,6 @@ export function ProfileContent(params: {user: Employee}) {
       <Button className="w-1/6" onClick={() => router.back()}>
         Quay lại
       </Button>
-      {/* <div className="rounded-sm b py-4 container rounded-lgshadow-lg items-start gap-6">
-        <div className="flex flex-col gap-4 items-center">
-          <h1
-            className="text-3xl font-semibold text-center text-blue-700
-            bg-blue-100 p-2 rounded-md">
-            THÔNG TIN NGƯỜI DÙNG
-          </h1>
-          <Label className="text-lg">Tên người dùng: {user.fullName}</Label>
-          <Label className="text-lg">
-            Ngày sinh: {new Date(user.birthDate).toLocaleDateString("vi-VN")}
-          </Label>
-          <Label className="text-lg">Số điện thoại: {user.phoneNumber}</Label>
-          <Label className="text-lg">
-            Tên tài khoản đăng nhập: {user.account.username}
-          </Label>
-          
-        </div>
-      </div> */}
       <Card className="w-full max-w-3xl p-4 mx-auto">
         <CardHeader className="bg-gray-200 rounded-sm">
           <p className="text-3xl font-semibold">Thông tin người dùng</p>

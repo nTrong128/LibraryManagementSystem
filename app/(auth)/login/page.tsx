@@ -38,6 +38,9 @@ export default function LoginPage() {
 
   return (
     <main className="py-12 bg-gray-100 sm:px-6 lg:px-8 dark:bg-gray-800 h-screen">
+      <Link href={"/"}>
+        <Button>Trang chủ</Button>
+      </Link>
       <div className="space-y-2 text-center">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl sm:leading-[3.5rem] md:text-6xl">
           ĐĂNG NHẬP

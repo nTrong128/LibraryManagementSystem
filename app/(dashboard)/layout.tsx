@@ -21,6 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
+
   if (session?.user.loginTime + 2 * 60 * 60 * 1000 < new Date().getTime()) {
     signOut();
     redirect("/login");
@@ -30,6 +31,7 @@ export default async function RootLayout({
     // return <div>YOU ARE NOT LOGIN</div>;
     redirect("/login");
   }
+
   return (
     <SessionProvider>
       <html lang="en">
