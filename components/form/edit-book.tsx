@@ -45,7 +45,7 @@ export function FormEditBook(prop: {
       setCategory(res_category.data);
       setPublisher(res_publisher.data);
     } catch (error) {
-      console.log("Error fetching data", error);
+      return <div>Failed to load</div>;
     }
   };
 
@@ -73,7 +73,6 @@ export function FormEditBook(prop: {
     values.publisherId = Number(values.publisherId);
     values.publicationYear = Number(values.publicationYear);
     try {
-      console.log("values", values);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/books/${prop.book.id}`,
         values,
@@ -84,9 +83,8 @@ export function FormEditBook(prop: {
         alert("Cập nhật sản phẩm thành công");
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
-      console.log("Error editing product", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

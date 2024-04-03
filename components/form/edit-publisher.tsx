@@ -38,7 +38,6 @@ export function FormEditPublisher(prop: {
   } = form;
   async function onSubmit(values: any) {
     try {
-      console.log("values", values);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/publishers/${prop.publisher.id}`,
         values,
@@ -49,9 +48,8 @@ export function FormEditPublisher(prop: {
         alert("Cập nhật nhà xuất bản thành công");
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
-      console.log("Error editing publisher", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

@@ -35,7 +35,6 @@ export function FormEditCategory(prop: {
   } = form;
   async function onSubmit(values: any) {
     try {
-      console.log("values", values);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories/${prop.category.id}`,
         values,
@@ -46,9 +45,8 @@ export function FormEditCategory(prop: {
         alert("Cập nhật thể loại thành công");
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
-      console.log("Error editing category", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

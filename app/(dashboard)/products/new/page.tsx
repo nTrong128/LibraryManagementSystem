@@ -47,7 +47,7 @@ export default function NewProductPage() {
       setCategory(res_category.data);
       setPublisher(res_publisher.data);
     } catch (error) {
-      console.log("Error fetching data", error);
+      return <div>Failed to load</div>;
     }
   };
 
@@ -76,7 +76,7 @@ export default function NewProductPage() {
         router.push("/products");
       }
     } catch (error) {
-      console.log("Error creating product", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

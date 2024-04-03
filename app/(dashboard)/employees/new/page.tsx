@@ -60,7 +60,7 @@ export default function NewPublisherPage() {
         router.back();
       }
     } catch (error) {
-      console.log("Error creating employee", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

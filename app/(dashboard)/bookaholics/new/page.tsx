@@ -45,7 +45,6 @@ export default function NewReaderPage() {
         router.back();
       }
     } catch (error) {
-      console.log("Error creating reader", error);
       return <div>Failed to load</div>;
     }
   }

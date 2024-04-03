@@ -45,7 +45,7 @@ export default function NewProductPage() {
         router.back();
       }
     } catch (error) {
-      console.log("Error creating author", error);
+      return <div>Loading...</div>;
     }
   }
   return (

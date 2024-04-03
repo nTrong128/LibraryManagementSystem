@@ -41,7 +41,7 @@ export function AccountRole(prop: {employee: Employee}) {
             className="hover:bg-red-600"
             onClick={async () => {
               const res = await changeRole(employee.id, newRole);
-              console.log(res);
+
               if (res.statusCode === 200) {
                 toast({
                   title: "Đổi quyền thành công",

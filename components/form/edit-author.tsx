@@ -37,7 +37,6 @@ export function FormEditAuthor(prop: {
   } = form;
   async function onSubmit(values: any) {
     try {
-      console.log("values", values);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/authors/${prop.author.id}`,
         values,
@@ -48,9 +47,8 @@ export function FormEditAuthor(prop: {
         alert("Cập nhật tác giả thành công");
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
-      console.log("Error editing author", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

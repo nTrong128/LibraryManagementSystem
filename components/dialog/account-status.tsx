@@ -55,8 +55,6 @@ export function AccountStatus(prop: {employee: Employee}) {
                   duration: 3000,
                 });
               } else {
-                console.log(res);
-                console.log({employee, newStatus});
                 toast({
                   title: "Đổi trạng thái tài khoản thất bại",
                   description:

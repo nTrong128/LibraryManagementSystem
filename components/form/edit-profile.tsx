@@ -50,7 +50,6 @@ export function EditProfileForm(prop: {
       values.birthDate = formatDate(value.toLocaleString("vi-VN"));
     }
     try {
-      console.log("values", values);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${prop.employee.id}`,
         values,
@@ -61,9 +60,8 @@ export function EditProfileForm(prop: {
         alert("Cập nhật thông tin người dùng thành công");
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
-      console.log("Error editing profile", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

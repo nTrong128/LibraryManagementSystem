@@ -52,7 +52,7 @@ export function CreateLibraryCardForm(prop: {
         prop.setOpen(false);
       }
     } catch (error) {
-      console.log("Error create library cards", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

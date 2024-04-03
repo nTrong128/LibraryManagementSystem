@@ -41,7 +41,7 @@ export const authOptions = {
             name: accountInfo.employee.fullName,
             email: "email",
             image: "image",
-            id: accountInfo.id,
+            id: accountInfo.employee.id,
             username: accountInfo.username,
             role: accountInfo.role,
             enabled: accountInfo.enabled,

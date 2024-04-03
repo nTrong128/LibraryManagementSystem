@@ -22,11 +22,9 @@ export default async function ProfilePage() {
       }
     );
     const data = await res.json();
-
     user = data.data;
     if (!user) return <div>Loading...</div>;
   } catch (error) {
-    console.error("Error fetching books:", error);
     return <div>Loading...</div>;
   }
 

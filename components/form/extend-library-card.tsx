@@ -47,7 +47,6 @@ export function ExtendLibraryCardForm(prop: {
       values.note = "";
     }
     try {
-      console.log("values", values);
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/readers/${prop.reader.id}/library-cards`,
         values,
@@ -58,9 +57,8 @@ export function ExtendLibraryCardForm(prop: {
         alert("Cập nhật thẻ thư viện thành công");
         prop.setOpen(false);
       }
-      console.log(response);
     } catch (error) {
-      console.log("Error editing library cards", error);
+      return <div>Failed to load</div>;
     }
   }
   return (

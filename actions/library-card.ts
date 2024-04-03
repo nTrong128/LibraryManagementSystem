@@ -16,7 +16,6 @@ export async function deleteLibraryCard(id: number) {
       },
     }
   );
-  console.log(data);
   action("list-readers");
   return data.json();
 }
