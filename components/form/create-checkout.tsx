@@ -40,7 +40,7 @@ export function CreateCheckOutForm(prop: {
   const readers = prop.readers.filter((reader) => reader.libraryCard);
   const session = useSession();
   const accessToken = session?.data?.user.accessToken;
-  const employeeId = session?.data?.user.id;
+  const employeeId = session?.data?.user.userId;
 
   const [borrowBook, setBorrowBook] = useState<Book[]>([]);
   const [error, setError] = useState("");
@@ -95,6 +95,7 @@ export function CreateCheckOutForm(prop: {
         prop.setOpen(false);
       }
     } catch (error) {
+      console.log(error);
       const responseError = error as {response: {data: {message: string}}};
       setError(responseError.response.data.message);
     }

@@ -7,7 +7,7 @@ import {Account, Employee} from "@/types";
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
   let user: Employee;
-  const id = session?.user.id;
+  const id = session?.user.userId;
 
   try {
     const res = await fetch(

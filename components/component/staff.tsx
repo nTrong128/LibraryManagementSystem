@@ -187,7 +187,8 @@ export function Staff(prop: {employees: Employee[]}) {
             <AlertDialogTitle>
               Bạn có chắc muốn khôi phục mật khẩu cho tài khoản:{" "}
               <span className="italic text-red-500">
-                {selected?.account?.username} thành mật khẩu mặc định (Staff123)
+                {selected?.account?.username} thành mật khẩu mặc định
+                (Staff123@)
               </span>
             </AlertDialogTitle>
             <AlertDialogDescription>
